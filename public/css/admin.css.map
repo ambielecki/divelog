@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,mCAAoC;EAChC,OAAO,EAAE,CAAC",
+"sources": ["admin.scss"],
+"names": [],
+"file": "admin.css"
+}

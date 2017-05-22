@@ -1,0 +1,55 @@
+$primary_color: #0d47a1;
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* label color */
+.input-field label {
+    color: $primary_color;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: $primary_color;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid $primary_color;
+    box-shadow: 0 1px 0 0 $primary_color;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid $primary_color;
+    box-shadow: 0 1px 0 0 $primary_color;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid $primary_color;
+    box-shadow: 0 1px 0 0 $primary_color;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: $primary_color;
+}
+
+ul.dropdown-content.select-dropdown li span {
+    color: #0D47A1; /* no need for !important :) */
+}
+
+ul.dropdown-content.select-dropdown li.disabled span {
+    color: grey; /* no need for !important :) */
+}
+
+.flash {
+    margin-bottom: 0;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: $primary_color;
+}
