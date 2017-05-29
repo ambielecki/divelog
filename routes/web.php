@@ -20,6 +20,9 @@ Auth::routes();
 Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function() {
     Route::get('/', 'AdminController@getAdmin')->name('admin');
 
+    Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
+    Route::post('/home/edit', 'HomeController@postEditHome');
+
     Route::get('/image/list', 'ImageController@getImageList')->name('image_list');
     Route::get('/image/upload', 'ImageController@getUploadImage')->name('image_upload');
     Route::post('/image/upload', 'ImageController@postUploadImage');

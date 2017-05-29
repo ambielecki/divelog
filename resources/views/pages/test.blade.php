@@ -4,10 +4,6 @@
     Test Title
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     <div class="row">
         <div class="col s12 m12 l6 offset-l3">
@@ -57,10 +53,10 @@
     </div>
 @stop
 
-@section('body_2')
+@push('body_scripts)
     <script>
         $(document).ready(function(){
             $('.slider').slider();
         });
     </script>
-@stop
+@endpush

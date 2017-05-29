@@ -4,10 +4,6 @@
     Admin Console
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     <div class="container flow-text">
         <div class="card">
@@ -21,11 +17,13 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h4>Home Page</h4></li>
+                    <li class="collection-item"><a href="{{ route('home_edit') }}">Edit Home Page</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-@stop
-
-@section('body_2')
-    <script>
-
-    </script>
 @stop

@@ -10,7 +10,7 @@ use Storage;
 class ImageFolder extends Model
 {
     public function images() {
-        return $this->hasMany('app\Images');
+        return $this->hasMany('App\Image');
     }
 
     public static function createFolder($name) {

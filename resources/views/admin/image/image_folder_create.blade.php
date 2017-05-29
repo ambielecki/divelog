@@ -4,10 +4,6 @@
     Create Image Folder
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     <div class="container image_page">
         <div class="row">
@@ -35,7 +31,4 @@
             </div>
         </div>
     </div>
-@stop
-
-@section('body_2')
 @stop

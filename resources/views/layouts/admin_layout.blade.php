@@ -1,9 +1,8 @@
 @extends('shell.shell')
 
-@section('head')
+@push('head_scripts')
     <link rel="stylesheet" href="/css/admin.css">
-    @yield('head_2')
-@stop
+@endpush
 
 @section('layout')
     @include('header.admin_header')
@@ -13,8 +12,7 @@
     @include('footer.footer')
 @stop
 
-@section('body')
+@push('body_scripts')
     <script src="/js/admin.js"></script>
-    @yield('body_2')
-@stop
+@endpush
 

@@ -4,10 +4,6 @@
     Full Size Image
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     <div class="container">
         <div class="row">
@@ -16,8 +12,4 @@
             </div>
         </div>
     </div>
-@stop
-
-@section('body_2')
-
 @stop

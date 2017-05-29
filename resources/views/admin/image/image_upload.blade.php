@@ -4,10 +4,6 @@
     Upload Images
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     <div class="container image_page">
         <div class="row">
@@ -99,10 +95,10 @@
     </div>
 @stop
 
-@section('body_2')
+@push('body_scripts')
     <script>
         $(document).ready(function() {
             $('select').material_select();
         });
     </script>
-@stop
+@endpush

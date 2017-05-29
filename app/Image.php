@@ -14,11 +14,11 @@ use Intervention\Image\Facades\Image as InterventionImage;
 class Image extends Model
 {
     public function image_placements() {
-        return $this->hasMany('app\ImagePlacement');
+        return $this->hasMany('App\ImagePlacement');
     }
 
     public function image_folder() {
-        return $this->belongsTo('app\ImageFolder');
+        return $this->belongsTo('App\ImageFolder');
     }
 
     public static function uploadImage(Request $request) {
@@ -34,7 +34,7 @@ class Image extends Model
             // check if folder exists, if not create it
             $folder = ImageFolder::find($request->input('folder'));
             $fileName = uniqid($folder->name.'_', false);
-            $path = $folder->name.'/'.$fileName.'jpg';
+            $path = $folder->name.'/'.$fileName;
 
             if ($image->save(storage_path().'/app/images/'.$path.'.jpg')) {
                 $dbImage = new Image();

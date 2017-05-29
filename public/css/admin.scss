@@ -1,3 +1,17 @@
 .collapsible-body.side_nav_collapse {
     padding: 0;
 }
+
+.form_label {
+    color: #0d47a1;
+    font-size: 1rem;
+}
+
+.thumbnail > img {
+    padding: 2px;
+    margin: 0.5px 0px;
+}
+
+.thumbnail.selected > img {
+    border: 2px solid #0D47A1;
+}

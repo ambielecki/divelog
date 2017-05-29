@@ -10,7 +10,7 @@
     <script src="https://use.fontawesome.com/f3941c2d61.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     {{-- For page specific css --}}
-    @yield('head')
+    @stack('head_scripts')
 </head>
 <body class="blue lighten-5">
 
@@ -18,7 +18,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-@yield('body')
+@stack('body_scripts')
 </body>
 
 

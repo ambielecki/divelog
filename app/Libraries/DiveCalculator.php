@@ -173,7 +173,7 @@ class DiveCalculator
             return $this::NO_RESIDUAL_NITROGEN;
         }
     }
-d
+
     /**
      * @param string $pressureGroup PG after SI
      * @param int $depth planned depth

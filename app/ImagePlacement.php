@@ -14,7 +14,7 @@ class ImagePlacement extends Model
         'hero'
     ];
 
-    public function page_placements() {
-        return $this->hasMany('app\PagePlacement');
+    public function images() {
+        return $this->hasMany('App\Image');
     }
 }

@@ -12,7 +12,7 @@ class ImageFoldersTableSeeder extends Seeder
      */
     public function run()
     {
-        $folders = ['mexico', 'jamaica', 'bahamas', 'bermuda', 'bonaire', 'aruba', 'general'];
+        $folders = ['home', 'hero'];
         foreach ($folders as $folder) {
             ImageFolder::createFolder($folder);
         }
