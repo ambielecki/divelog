@@ -169,6 +169,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
 
@@ -196,6 +197,7 @@ return [
 
     'aliases' => [
 
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
