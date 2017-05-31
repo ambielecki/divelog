@@ -38,6 +38,8 @@ Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function() {
 
 Route::get('/divelog', 'DiveLogController@getDiveLog')->name('divelog');
 
+Route::get('/calculator', 'DiveCalculatorController@getCalculator')->name('calculator');
+
 Route::get('/logs','\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::get('/test2', 'TestController@getTest2');

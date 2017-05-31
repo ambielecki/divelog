@@ -1,4 +1,5 @@
 $primary_color: #0d47a1;
+$highlight_color: #ffffb3;
 
 body {
     display: flex;
@@ -39,7 +40,7 @@ main {
 }
 
 ul.dropdown-content.select-dropdown li span {
-    color: #0D47A1; /* no need for !important :) */
+    color: $primary_color; /* no need for !important :) */
 }
 
 ul.dropdown-content.select-dropdown li.disabled span {
@@ -73,6 +74,22 @@ ul.dropdown-content.select-dropdown li.disabled span {
     width: 100%;
 }
 
+.dive_table {
+    background-color: white;
+}
 .card .card-content .home_page_text p {
     margin-bottom: 1rem;
+}
+
+.dive_table td, .dive_table th {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+.dive_table td:hover {
+    background-color: yellow !important;
+}
+
+.dive_hover {
+    background-color: $highlight_color !important;
 }

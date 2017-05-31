@@ -4,10 +4,6 @@
     Dive Log Repeat - Home
 @stop
 
-@section('head_2')
-
-@stop
-
 @section('content')
     @if($heroImage)
         <div class="row hero_image_block">
