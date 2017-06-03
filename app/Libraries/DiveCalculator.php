@@ -190,12 +190,44 @@ class DiveCalculator
         }
         $rnt = $this::OFF_REPETITIVE_CHART;
         foreach ($nitrogenTimes as $tableDepth => $times) {
-            if ($depth < $tableDepth) {
+            if ($depth <= $tableDepth) {
                 $rnt = isset($nitrogenTimes[$tableDepth][$pressureKey]) ? $nitrogenTimes[$tableDepth][$pressureKey] : $this::OFF_REPETITIVE_CHART;
                 break;
             }
         }
         return $rnt;
+    }
+
+
+    /**
+     * @param $depth integer dive depth
+     * @param $rnt int optional residual nitrogen time from previous dive
+     * @return mixed
+     */
+    public function getMaxBottomTime($depth, $rnt = 0) {
+        $tableDepths = $this->getTableDepths();
+        $depthKey = null;
+        foreach ($tableDepths as $key => $tableDepth) {
+            if ($depth <= $tableDepth) {
+                $depthKey = $key;
+                break;
+            }
+        }
+        if (!$depthKey) {
+            return $this::OVER_DEPTH;
+        }
+        $maxTime = 0;
+        $tableGroups = $this->getTableOne();
+
+        foreach ($tableGroups as $group) {
+            if (isset($group[$depthKey])) {
+                $maxTime = $group[$depthKey];
+            } else {
+                break;
+            }
+        }
+
+        return $maxTime - $rnt;
     }
 
     /**

@@ -79,4 +79,8 @@ ul.dropdown-content.select-dropdown li.disabled span {
 .dive_hover {
   background-color: #ffffb3 !important; }
 
+.dive_results td, .dive_results th {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important; }
+
 /*# sourceMappingURL=main.css.map */

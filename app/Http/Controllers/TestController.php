@@ -13,13 +13,7 @@ use App\Libraries\DiveCalculator;
 class TestController extends Controller
 {
     public function getTest2() {
-       $page = new MongoPage();
-       $page->title = "Here's the title again";
-       $page->content = "More, content, content.";
-       if ($page->save()) {
-           return "Success";
-       } else {
-           return "Failure";
-       }
+       $calculator = new DiveCalculator();
+       return $calculator->getMaxBottomTime(70);
     }
 }
