@@ -14,3 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/calculator', 'DiveCalculatorController@postCalculator');
+
+Route::post('/image/list', 'ImageController@postImageList');
+Route::post('/image/detail', 'ImageController@postImageDetail');

@@ -56,11 +56,6 @@
                                     <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $selectedCarousel) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('image_carousel'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('image_carousel') }}</strong>
-                                </span>
-                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -71,11 +66,6 @@
                                     <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $selectedSingle) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('image_single'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('image_single') }}</strong>
-                                </span>
-                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -97,11 +87,6 @@
                                     <option data-img-src="/images/{{ $heroImages->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $image->id == $selectedHero ? "selected" :"" }}></option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('image_hero'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('image_hero') }}</strong>
-                                </span>
-                            @endif
                         </div>
                     </div>
                     <div class="row">

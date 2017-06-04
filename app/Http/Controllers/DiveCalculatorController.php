@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiveCalculatorRequest;
 use App\Libraries\DiveCalculator;
-use Illuminate\Http\Request;
 
 class DiveCalculatorController extends Controller
 {
@@ -18,14 +18,8 @@ class DiveCalculatorController extends Controller
         ]);
     }
 
-    public function postCalculator(Request $request) {
-        $this->validate($request, [
-            'dive_1_depth'      => 'numeric|nullable',
-            'dive_1_time'       => 'numeric|nullable',
-            'surface_interval'  => 'numeric|nullable',
-            'dive_2_depth'      => 'numeric|nullable',
-            'dive_2_time'       => 'numeric|nullable',
-        ]);
+    public function postCalculator(DiveCalculatorRequest $request) {
+        $error = false;
 
         $dive_1_max_time    = null;
         $dive_1_pg          = null;
@@ -48,18 +42,29 @@ class DiveCalculatorController extends Controller
 
         if ($dive_1_depth && $dive_1_time) {
             $dive_1_pg = $calculator->getPressureGroup($dive_1_depth, $dive_1_time);
+            if (DiveCalculator::OVER_DEPTH === $dive_1_depth || DiveCalculator::OVER_NDL === $dive_1_depth) {
+                $error = true;
+            }
         }
 
-        if ($dive_1_pg && $surface_interval) {
+        if (!$error && $dive_1_pg && $surface_interval) {
             $post_si_pg = $calculator->getNewPressureGroup($dive_1_pg, $surface_interval);
         }
 
-        if ($post_si_pg && $dive_2_depth) {
-            $rnt = $calculator->getResidualNitrogenTime($post_si_pg, $dive_2_depth);
-            $dive_2_max_time = $calculator->getMaxBottomTime($dive_2_depth, $rnt);
+        if (!$error && $post_si_pg && $dive_2_depth) {
+            if (DiveCalculator::NO_RESIDUAL_NITROGEN === $post_si_pg) {
+                $rnt = 0;
+            } else {
+                $rnt = $calculator->getResidualNitrogenTime($post_si_pg, $dive_2_depth);
+            }
+            if (DiveCalculator::OFF_REPETITIVE_CHART === $rnt) {
+                $error = true;
+            } else {
+                $dive_2_max_time = $calculator->getMaxBottomTime($dive_2_depth, $rnt);
+            }
         }
 
-        if ($rnt && $dive_2_depth && $dive_2_time) {
+        if (!$error && $rnt && $dive_2_depth && $dive_2_time) {
             $dive_2_pg = $calculator->getPressureGroup($dive_2_depth, $dive_2_max_time, $rnt);
         }
 

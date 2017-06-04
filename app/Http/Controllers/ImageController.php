@@ -45,14 +45,49 @@ class ImageController extends Controller
      */
     public function getFullImage($folder, $fileName) {
         return view('pages.image', [
-            'folder' => $folder,
-            'fileName' => $fileName
+            'folder'    => $folder,
+            'fileName'  => $fileName
         ]);
     }
 
     public function getImageList() {
-        $images = Image::get();
-        dump($images->toArray());
+        $folders = ImageFolder::get();
+        return view('admin.image.image_list', [
+            'folders'   => $folders
+        ]);
+    }
+
+    public function postImageList(Request $request) {
+        $folder = ImageFolder::with('images')->find($request->input('folder'));
+        $response_images = [];
+        foreach ($folder->images as $image) {
+            $this_image = [
+                'folder'    => $folder->name,
+                'id'        => $image->id,
+                'name'      => $image->filename,
+                'path'      => '/images/' . $folder->name . '/' . $image->filename . '.jpg?size=150'
+            ];
+            array_push($response_images, $this_image);
+        }
+        return response()->json([
+            'images'   => $response_images
+        ]);
+    }
+
+    public function postImageDetail(Request $request) {
+        $image = Image::with('image_folder')->find($request->input('image'));
+        $image_response = [
+            'id'            => $image->id,
+            'name'          => $image->filename,
+            'header'        => $image->header,
+            'subheader'     => $image->subheader,
+            'description'   => $image->description,
+            'folder'        => $image->image_folder->name,
+            'path'          => '/images/' . $image->image_folder->name . '/' . $image->filename . '.jpg'
+        ];
+        return response()->json([
+            'image' => $image_response
+        ]);
     }
 
     /**
