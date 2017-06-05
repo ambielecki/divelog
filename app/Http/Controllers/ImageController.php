@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageUploadRequest;
+use App\Http\Requests\ImageEditRequest;
 use App\Image;
 use App\ImageFolder;
-use App\ImagePlacement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -50,6 +50,11 @@ class ImageController extends Controller
         ]);
     }
 
+    /**
+     * get the lists of images
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getImageList() {
         $folders = ImageFolder::get();
         return view('admin.image.image_list', [
@@ -57,6 +62,13 @@ class ImageController extends Controller
         ]);
     }
 
+
+    /**
+     * ajax method to return a list of images in a folder
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postImageList(Request $request) {
         $folder = ImageFolder::with('images')->find($request->input('folder'));
         $response_images = [];
@@ -74,6 +86,12 @@ class ImageController extends Controller
         ]);
     }
 
+    /**
+     * ajax method to get the details of an image
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postImageDetail(Request $request) {
         $image = Image::with('image_folder')->find($request->input('image'));
         $image_response = [
@@ -88,6 +106,43 @@ class ImageController extends Controller
         return response()->json([
             'image' => $image_response
         ]);
+    }
+
+    /**
+     * edit an image
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getEdit($id) {
+        $image = Image::with('image_folder')->find($id);
+        if (!$image) {
+            Session::flash('flash_warning', 'Image does not exist, please try again');
+            return redirect()->route('image_list');
+        }
+        $folders = ImageFolder::get();
+        return view('admin.image.image_edit', [
+            'image'     => $image,
+            'folders'   => $folders,
+            'id'        => $id
+        ]);
+    }
+
+    /**
+     * process image edit
+     *
+     * @param ImageEditRequest $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function postEdit(ImageEditRequest $request) {
+        $status = Image::editImage($request);
+        if ($status) {
+            Session::flash('flash_success', 'Image Updated Successfully');
+            return redirect()->route('image_list');
+        } else {
+            Session::flash('flash_warning', 'There was a problem saving your data, please try again');
+            return redirect('/admin/image_edit/' . $request->input('id'))->withInput();
+        }
     }
 
     /**

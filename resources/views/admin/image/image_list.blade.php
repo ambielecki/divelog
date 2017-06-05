@@ -12,7 +12,7 @@
     <div class="container image_page">
         <div class="row">
             <div class="col s12 m12 l12 card-panel">
-                <h2 class="header blue-text text-darken-4">Select an Image Folder</h2>
+                <h2 class="header blue-text text-darken-4">Images</h2>
                 <form class="form-horizontal" role="form" method="POST" action="/api/image/list">
                     <div class="row">
                         <div class="input-field col s12">
@@ -32,8 +32,13 @@
                                 <image-select :select_images="images"></image-select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div v-if="image" class="col s12">
+                        <div v-if="image" class="row">
+                            <div class="col s12">
+                                <a :href="edit_href" class="btn blue darken-4">Edit This Image</a>
+                            </div>
+                        </div>
+                        <div v-if="image" class="row">
+                            <div class="col s12">
                                 <image-display :display_image="image"></image-display>
                             </div>
                         </div>

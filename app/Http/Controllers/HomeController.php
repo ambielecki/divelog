@@ -12,32 +12,27 @@ class HomeController extends Controller
 {
     public function getHome() {
         $page = MongoPage::where('name', '=', 'home')->where('active', '=', true)->orderBy('created_at', 'DESC')->first();
-        $heroImage = $page->image_hero ? Image::with('image_folder') ->find($page->image_hero) : '';
-        $carouselImages = $page->images_carousel ? Image::with('image_folder')->findMany($page->images_carousel) : [];
-        $singleImages = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
+        $image_hero = $page->image_hero ? Image::with('image_folder') ->find($page->image_hero) : '';
+        $images_carousel = $page->images_carousel ? Image::with('image_folder')->findMany($page->images_carousel) : [];
+        $images_single = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
+
         return view('home', [
-            'title'             => $page->title,
-            'content'           => $page->content,
-            'heroTitle'         => $page->hero_title ? $page->hero_title : "",
-            'heroImage'         => $heroImage,
-            'carouselTitle'     => $page->carousel_title ? $page->carousel_title : "",
-            'carouselImages'    => $carouselImages,
-            'singleImages'      => $singleImages
+            'page'              => $page,
+            'image_hero'        => $image_hero,
+            'images_carousel'   => $images_carousel,
+            'images_single'     => $images_single
         ]);
     }
 
     public function getEditHome() {
         $page = MongoPage::where('name', '=', 'home')->where('active', '=', true)->orderBy('created_at', 'DESC')->first();
         $images = ImageFolder::where('name', '=', 'home')->with('images')->first();
-        $heroImages = ImageFolder::where('name', '=', 'hero')->with('images')->first();
+        $hero_images = ImageFolder::where('name', '=', 'hero')->with('images')->first();
+
         return view('admin.home_edit', [
-            'heroImages'        => $heroImages,
-            'selectedHero'      => $page->hero_image ? $page->hero_image : "",
-            'heroTitle'         => $page->hero_title ? $page->hero_title : "",
+            'page'              => $page,
+            'hero_images'       => $hero_images,
             'images'            => $images,
-            'selectedCarousel'  => $page->images_carousel ? $page->images_carousel : [],
-            'selectedSingle'    => $page->images_single ? $page->images_single : [],
-            'page'              => $page
         ]);
     }
 

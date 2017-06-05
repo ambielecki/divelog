@@ -32,18 +32,18 @@ class DiveCalculator
     /**
      * @var array depths used for calculations for table 1, to get initial pressure group
      */
-    private $tableDepths = [35,40,50,60,70,80,90,100,110,120,130,140];
+    private $table_depths = [35,40,50,60,70,80,90,100,110,120,130,140];
 
     /**
      * @var array the Pressure Groups, used in calculations with table 2
      */
-    private $tableGroups = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    private $table_groups = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
     /**
      * @var array PADI Dive Table 1, calculates pressure group after a dive to a certain depth for a certain time
      * keys are pressure groups, values are bottom times
      */
-    private $tableOne = [
+    private $table_one = [
         'A' => [10, 9, 7, 6, 5, 4, 4, 3, 3, 3, 3, 'x'],
         'B' => [19, 16, 13, 11, 9, 8, 7, 6, 6, 5, 5, 4],
         'C' => [25, 22, 17, 14, 12, 10, 9, 8, 7, 6, 6, 5],
@@ -75,7 +75,7 @@ class DiveCalculator
      * @var array PADI Dive Table 2, calculates new pressure group after a suface interval
      * key is the starting PG, values are surface interval times
      */
-    private $tableTwo = [
+    private $table_two = [
         'A' => [180],
         'B' => [228, 47],
         'C' => [250, 69, 21],
@@ -107,7 +107,7 @@ class DiveCalculator
     /**
      * @var array PADI Dive Table 3, Residual Nitrogen Times
      */
-    private $tableThree = [
+    private $table_three = [
         35 => [10, 19, 25, 29, 32, 36, 40, 44, 48, 52, 57, 62, 67, 73, 79, 85, 92, 100, 108, 117, 127, 139, 152, 168, 188, 205],
         40 => [9, 16, 22, 25, 27, 31, 34, 37, 40, 44, 48, 51, 55, 60, 64, 69, 74, 79, 85, 91, 97, 104, 111, 120, 129, 140],
         50 => [7, 13, 17, 19, 21, 24, 26, 28, 31, 33, 36, 38, 41, 44, 47, 50, 53, 57, 60, 63, 67, 71, 75, 80],
@@ -124,74 +124,74 @@ class DiveCalculator
     /**
      * @param int $depth maximum depth
      * @param $time int bottom time
-     * @param null $residualTime for calculating a repetitive dive, RNT obtained from table 3
+     * @param null $residual_time for calculating a repetitive dive, RNT obtained from table 3
      * @return string
      */
-    public function getPressureGroup ($depth, $time, $residualTime = null) {
-        $time = $time + $residualTime;
-        $tableDepths = $this->getTableDepths();
-        $depthKey = null;
-        foreach ($tableDepths as $key => $tableDepth) {
-            if ($depth <= $tableDepth) {
-                $depthKey = $key;
+    public function getPressureGroup ($depth, $time, $residual_time = null) {
+        $time = $time + $residual_time;
+        $table_depths = $this->getTableDepths();
+        $depth_key = null;
+        foreach ($table_depths as $key => $table_depth) {
+            if ($depth <= $table_depth) {
+                $depth_key = $key;
                 break;
             }
         }
-        if (!$depthKey) {
+        if (!$depth_key) {
             return $this::OVER_DEPTH;
         }
-        $tableGroups = $this->getTableOne();
-        $pressureGroup = $this::OVER_NDL;
-        foreach ($tableGroups as $group => $times) {
-            if (isset($times[$depthKey]) && $time <= $times[$depthKey]) {
-                $pressureGroup = $group;
+        $table_groups = $this->getTableOne();
+        $pressure_group = $this::OVER_NDL;
+        foreach ($table_groups as $group => $times) {
+            if (isset($times[$depth_key]) && $time <= $times[$depth_key]) {
+                $pressure_group = $group;
                 break;
             }
         }
-        return $pressureGroup;
+        return $pressure_group;
     }
 
     /**
-     * @param string $startingGroup Pressure group from table 1
-     * @param int $surfaceInterval time between dives in minutes
+     * @param string $starting_group Pressure group from table 1
+     * @param int $surface_interval time between dives in minutes
      * @return string new PG or no residual message
      */
-    public function getNewPressureGroup($startingGroup, $surfaceInterval) {
-        $pressureGroups = $this->getTableGroups();
-        $tableTimes = $this->getTableTwo();
-        $times = $tableTimes[strtoupper($startingGroup)];
-        $groupKey = null;
+    public function getNewPressureGroup($starting_group, $surface_interval) {
+        $pressure_groups = $this->getTableGroups();
+        $table_times = $this->getTableTwo();
+        $times = $table_times[strtoupper($starting_group)];
+        $group_key = null;
         foreach ($times as $key => $time) {
-            if ($time < $surfaceInterval) {
-                $groupKey = $key;
+            if ($time < $surface_interval) {
+                $group_key = $key;
                 break;
             }
         }
-        if ($groupKey) {
-            return $pressureGroups[$groupKey - 1];
+        if ($group_key) {
+            return $pressure_groups[$group_key - 1];
         } else {
             return $this::NO_RESIDUAL_NITROGEN;
         }
     }
 
     /**
-     * @param string $pressureGroup PG after SI
+     * @param string $pressure_group PG after SI
      * @param int $depth planned depth
      * @return mixed either RNT or error message
      */
-    public function getResidualNitrogenTime($pressureGroup, $depth) {
-        $pressureGroups = $this->getTableGroups();
-        $nitrogenTimes = $this->getTableThree();
-        $pressureKey = null;
-        foreach ($pressureGroups as $key => $group) {
-            if ($group == $pressureGroup) {
-                $pressureKey = $key;
+    public function getResidualNitrogenTime($pressure_group, $depth) {
+        $pressure_groups = $this->getTableGroups();
+        $nitrogen_times = $this->getTableThree();
+        $pressure_key = null;
+        foreach ($pressure_groups as $key => $group) {
+            if ($group == $pressure_group) {
+                $pressure_key = $key;
             }
         }
         $rnt = $this::OFF_REPETITIVE_CHART;
-        foreach ($nitrogenTimes as $tableDepth => $times) {
-            if ($depth <= $tableDepth) {
-                $rnt = isset($nitrogenTimes[$tableDepth][$pressureKey]) ? $nitrogenTimes[$tableDepth][$pressureKey] : $this::OFF_REPETITIVE_CHART;
+        foreach ($nitrogen_times as $table_depth => $times) {
+            if ($depth <= $table_depth) {
+                $rnt = isset($nitrogen_times[$table_depth][$pressure_key]) ? $nitrogen_times[$table_depth][$pressure_key] : $this::OFF_REPETITIVE_CHART;
                 break;
             }
         }
@@ -205,63 +205,63 @@ class DiveCalculator
      * @return mixed
      */
     public function getMaxBottomTime($depth, $rnt = 0) {
-        $tableDepths = $this->getTableDepths();
-        $depthKey = null;
-        foreach ($tableDepths as $key => $tableDepth) {
-            if ($depth <= $tableDepth) {
-                $depthKey = $key;
+        $table_depths = $this->getTableDepths();
+        $depth_key = null;
+        foreach ($table_depths as $key => $table_depth) {
+            if ($depth <= $table_depth) {
+                $depth_key = $key;
                 break;
             }
         }
-        if (!$depthKey) {
+        if (!$depth_key) {
             return $this::OVER_DEPTH;
         }
-        $maxTime = 0;
-        $tableGroups = $this->getTableOne();
+        $max_time = 0;
+        $table_groups = $this->getTableOne();
 
-        foreach ($tableGroups as $group) {
-            if (isset($group[$depthKey])) {
-                $maxTime = $group[$depthKey];
+        foreach ($table_groups as $group) {
+            if (isset($group[$depth_key])) {
+                $max_time = $group[$depth_key];
             } else {
                 break;
             }
         }
 
-        return $maxTime - $rnt;
+        return $max_time - $rnt;
     }
 
     /**
      * @return array
      */
     public function getTableDepths() {
-        return $this->tableDepths;
+        return $this->table_depths;
     }
 
     /**
      * @return array
      */
     public function getTableGroups() {
-        return $this->tableGroups;
+        return $this->table_groups;
     }
 
     /**
      * @return array
      */
     public function getTableOne() {
-        return $this->tableOne;
+        return $this->table_one;
     }
 
     /**
      * @return array
      */
     public function getTableTwo() {
-        return $this->tableTwo;
+        return $this->table_two;
     }
 
     /**
      * @return array
      */
     public function getTableThree() {
-        return $this->tableThree;
+        return $this->table_three;
     }
 }

@@ -16,8 +16,8 @@
                             <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}">
                             <label for="name">Name</label>
                             @if ($errors->has('name'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('name') }}</strong>
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('name') }}</strong>
                                 </span>
                             @endif
                         </div>

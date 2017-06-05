@@ -23,9 +23,13 @@ Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function() {
     Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
     Route::post('/home/edit', 'HomeController@postEditHome');
 
-    Route::get('/image/list', 'ImageController@getImageList')->name('image_list');
-    Route::get('/image/upload', 'ImageController@getUploadImage')->name('image_upload');
-    Route::post('/image/upload', 'ImageController@postUploadImage');
+    Route::group(['prefix' => 'image'], function () {
+        Route::get('/list', 'ImageController@getImageList')->name('image_list');
+        Route::get('/upload', 'ImageController@getUploadImage')->name('image_upload');
+        Route::post('/upload', 'ImageController@postUploadImage');
+        Route::get('/edit/{id}', 'ImageController@getEdit')->name('image_edit');
+        Route::post('/edit', 'ImageController@postEdit');
+    });
 
     Route::get('image_folder/list', 'ImageController@getFolderList')->name('image_folder_list');
     Route::get('image_folder/create', 'ImageController@getFolderCreate')->name('image_folder_create');

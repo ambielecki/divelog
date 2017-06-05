@@ -86,4 +86,7 @@ ul.dropdown-content.select-dropdown li.disabled span {
 .dive_errors ul {
   padding: 10px !important; }
 
+.collapsible-body.side_nav_collapse {
+  padding: 0; }
+
 /*# sourceMappingURL=main.css.map */

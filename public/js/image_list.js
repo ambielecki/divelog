@@ -10,6 +10,7 @@ Vue.component('image-select', {
     props: ['select_images'],
     updated: function () {
         app.image = null;
+        app.href = null;
         $("#display_images").imagepicker({
             hide_select: true
         });
@@ -23,7 +24,7 @@ Vue.component('image-select', {
                 url: '/api/image/detail',
                 success: function (response) {
                     app.image = response.image;
-                    console.log(response.image.path);
+                    app.edit_href = '/admin/image/edit/' + response.image.id;
                 },
                 error: function (response) {
                     var errors = response.responseJSON;
@@ -43,7 +44,7 @@ Vue.component('image-select', {
 Vue.component('image-display', {
     template:   '<div class="card">' +
                     '<div class="card-image">' +
-                        '<img :src="display_image.path">' +
+                        '<img :src="display_image.path" :alt="display_image.description">' +
                         '<div class="card-content">' +
                             '<p>Header: {{ display_image.header }}</p>' +
                             '<p>Subheader: {{ display_image.subheader }}</p>' +
@@ -63,7 +64,8 @@ var app = new Vue({
     el: '#target',
     data: {
         images: [],
-        image: null
+        image: null,
+        edit_href: null,
     }
 });
 

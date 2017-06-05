@@ -7,7 +7,8 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col s8 offset-s2 card-panel">
+            <div class="col s8 offset-s2 card">
+                <span class="card-title blue-text text-darken-4">Log In</span>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
                     <div class="row">
@@ -15,7 +16,7 @@
                             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
                             <label for="email">E-Mail Address</label>
                             @if ($errors->has('email'))
-                                <span class="help-block">
+                                <span class="red-text text-darken-2">
                                     <strong>{{ $errors->first('email') }}</strong>
                                 </span>
                             @endif
@@ -25,9 +26,9 @@
                         <div class="input-field col s12{{ $errors->has('password') ? ' has-error' : '' }}">
                             <input id="password" type="password" name="password" required>
                             <label for="password">Password</label>
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                            @if ($errors->has('password'))
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('password') }}</strong>
                                 </span>
                             @endif
                         </div>

@@ -55,6 +55,20 @@ class Image extends Model
             Log::error($e);
             return false;
         }
+    }
 
+    public static function editImage(Request $request) {
+        try {
+            $image = Image::find($request->input('id'));
+            $image->image_folder_id = $request->input('folder');
+            $image->header = $request->input('header');
+            $image->subheader = $request->input('subheader');
+            $image->description = $request->input('description');
+            $image->save();
+            return true;
+        } catch (Exception $e) {
+            Log::error($e);
+            return false;
+        }
     }
 }

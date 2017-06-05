@@ -20,8 +20,8 @@
                             <input id="title" type="text" class="form-control" name="title" value="{{ old('title') ? old('title') : $page->title }}">
                             <label for="title">Title</label>
                             @if ($errors->has('title'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('title') }}</strong>
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('title') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -31,8 +31,8 @@
                             <label class="form_label" for="content">Content </label>
                             <textarea id="content" name="content">{{ old('content') ? old('content') : $page->content }}</textarea>
                             @if ($errors->has('content'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('content') }}</strong>
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('content') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -42,8 +42,8 @@
                             <input id="carousel_title" type="text" class="form-control" name="carousel_title" value="{{ old('carousel_title') }}">
                             <label for="hero_title">Carousel Description</label>
                             @if ($errors->has('carousel_title'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('carousel_title') }}</strong>
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('carousel_title') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -53,7 +53,7 @@
                             <label class="form_label" for="image_carousel">Select Carousel Images (Max 5)</label>
                             <select multiple name="image_carousel[]" id="image_carousel" class="image-picker">
                                 @foreach ($images->images as $image)
-                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $selectedCarousel) ? "selected" : "" }}></option>
+                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $page->images_carousel) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
                         </div>
@@ -63,18 +63,18 @@
                             <label class="form_label" for="image_single">Select Single Images (Max 3)</label>
                             <select multiple name="image_single[]" id="image_single" class="image-picker">
                                 @foreach ($images->images as $image)
-                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $selectedSingle) ? "selected" : "" }}></option>
+                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $page->images_single) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12{{ $errors->has('hero_title') ? ' has-error' : '' }}">
-                            <input id="hero_title" type="text" class="form-control" name="hero_title" value="{{ old('hero_title') ? old('hero_title') : $heroTitle }}">
+                            <input id="hero_title" type="text" class="form-control" name="hero_title" value="{{ old('hero_title') ? old('hero_title') : $page->hero_title }}">
                             <label for="hero_title">Hero Image Title</label>
                             @if ($errors->has('hero_title'))
-                                <span class="help-block">
-                                    <strong class="red-text">{{ $errors->first('hero_title') }}</strong>
+                                <span class="red-text text-darken-2">
+                                    <strong>{{ $errors->first('hero_title') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -83,8 +83,8 @@
                         <div class="col s12">
                             <label class="form_label" for="image_hero">Hero Image</label>
                             <select name="image_hero" id="image_hero" class="image-picker">
-                                @foreach ($heroImages->images as $image)
-                                    <option data-img-src="/images/{{ $heroImages->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $image->id == $selectedHero ? "selected" :"" }}></option>
+                                @foreach ($hero_images->images as $image)
+                                    <option data-img-src="/images/{{ $hero_images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $image->id == $page->hero_image ? "selected" :"" }}></option>
                                 @endforeach
                             </select>
                         </div>
