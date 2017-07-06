@@ -26,20 +26,20 @@ class Image extends Model
             $image = InterventionImage::make($request->file('photo'))->encode('jpg');
             $width = $image->width();
             if ($width > 2000) {
-                $image->resize(2000, null, function($constraint) {
+                $image->resize(2000, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
 
             // check if folder exists, if not create it
             $folder = ImageFolder::find($request->input('folder'));
-            $fileName = uniqid($folder->name.'_', false);
-            $path = $folder->name.'/'.$fileName;
+            $fileName = uniqid($folder->name . '_', false);
+            $path = $folder->name . '/' . $fileName;
 
-            if ($image->save(storage_path().'/app/images/'.$path.'.jpg')) {
+            if ($image->save(storage_path() . '/app/images/' . $path . '.jpg')) {
                 $dbImage = new Image();
                 $dbImage->filename = $fileName;
-                $dbImage->image_folder_id =  $request->input('folder');
+                $dbImage->image_folder_id = $request->input('folder');
                 $dbImage->header = $request->input('header');
                 $dbImage->subheader = $request->input('subheader');
                 $dbImage->description = $request->input('description');

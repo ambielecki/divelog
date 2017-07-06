@@ -26,7 +26,8 @@
                     <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="{{ route('calculator') }}">Dive Calculator</a></li>
-                        <li><a href="{{ route('divelog') }}">Dive Log</a></li>
+                        <li><a href="{{ route('divelog_list') }}">Dive Log</a></li>
+                        <li><a href="{{ route('updates_list') }}">Updates</a></li>
                         @if (Auth::check())
                             @if (Auth::user()->level <= 1)
                                 <li><a href="{{ 'admin' }}">Admin</a></li>
@@ -46,7 +47,8 @@
                     <ul class="side-nav" id="mobile">
                         <li><a href="/">Home</a></li>
                         <li><a href="{{ route('calculator') }}">Dive Calculator</a></li>
-                        <li><a href="{{ route('divelog') }}">Dive Log</a></li>
+                        <li><a href="{{ route('divelog_list') }}">Dive Log</a></li>
+                        <li><a href="{{ route('updates_list') }}">Updates</a></li>
                         @if (Auth::check())
                             @if (Auth::user()->level <= 1)
                                 <li><a href="{{ 'admin' }}">Admin</a></li>

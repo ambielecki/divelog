@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DiveCalculatorRequest;
+use App\Http\Requests\LogCalculatorRequest;
 use App\Libraries\DiveCalculator;
 
 class DiveCalculatorController extends Controller
@@ -10,23 +11,23 @@ class DiveCalculatorController extends Controller
     public function getCalculator() {
         $calculator = new DiveCalculator();
         return view('pages.divecalculator', [
-            'table_1_header'    => $calculator->getTableDepths(),
-            'table_1_body'      => $calculator->getTableOne(),
-            'table_header'      => $calculator->getTableGroups(),
-            'table_2_body'      => $calculator->getTableTwo(),
-            'table_3_body'      => $calculator->getTableThree()
+            'table_1_header' => $calculator->getTableDepths(),
+            'table_1_body'   => $calculator->getTableOne(),
+            'table_header'   => $calculator->getTableGroups(),
+            'table_2_body'   => $calculator->getTableTwo(),
+            'table_3_body'   => $calculator->getTableThree(),
         ]);
     }
 
     public function postCalculator(DiveCalculatorRequest $request) {
         $error = false;
 
-        $dive_1_max_time    = null;
-        $dive_1_pg          = null;
-        $post_si_pg         = null;
-        $rnt                = null;
-        $dive_2_max_time    = null;
-        $dive_2_pg          = null;
+        $dive_1_max_time = null;
+        $dive_1_pg = null;
+        $post_si_pg = null;
+        $rnt = null;
+        $dive_2_max_time = null;
+        $dive_2_pg = null;
 
         $dive_1_depth = $request->input('dive_1_depth');
         $dive_1_time = $request->input('dive_1_time');
@@ -69,12 +70,35 @@ class DiveCalculatorController extends Controller
         }
 
         return response()->json([
-            'dive_1_max_time'   => $dive_1_max_time,
-            'dive_1_pg'         => $dive_1_pg,
-            'post_si_pg'        => $post_si_pg,
-            'rnt'               => $rnt,
-            'dive_2_max_time'   => $dive_2_max_time,
-            'dive_2_pg'         => $dive_2_pg
+            'dive_1_max_time' => $dive_1_max_time,
+            'dive_1_pg'       => $dive_1_pg,
+            'post_si_pg'      => $post_si_pg,
+            'rnt'             => $rnt,
+            'dive_2_max_time' => $dive_2_max_time,
+            'dive_2_pg'       => $dive_2_pg,
+        ]);
+    }
+
+    public function postLogCalculator(LogCalculatorRequest $request) {
+        $max_depth = $request->input('max_depth');
+        $bottom_time = $request->input('bottom_time');
+        $previous_pg = $request->input('previous_pg');
+        $surface_interval = $request->input('surface_interval');
+        $post_si_pg = null;
+        $rnt = null;
+        $error = false;
+
+        $calculator = new DiveCalculator();
+
+        if ($surface_interval) {
+            $post_si_pg = $calculator->getNewPressureGroup($previous_pg, $surface_interval);
+            if ($max_depth < 130) {
+                $rnt = $calculator->getResidualNitrogenTime($post_si_pg, $max_depth);
+            }
+        }
+        $pressure_group = $calculator->getPressureGroup($max_depth, $bottom_time, $rnt);
+        return response()->json([
+            'pressure_group' => $pressure_group
         ]);
     }
 }

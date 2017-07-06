@@ -11,7 +11,7 @@ class ImagePlacement extends Model
         'left',
         'right',
         'banner',
-        'hero'
+        'hero',
     ];
 
     public function images() {

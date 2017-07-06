@@ -80,67 +80,146 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12 l6">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title blue-text text-darken-4">PADI Dive Table 1</span>
-                    <table class="bordered striped centered dive_table responsive">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            @foreach($table_1_header as $cell)
-                                <th>{{ $cell }}</th>
-                            @endforeach
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($table_1_body as $group => $row)
+    @if (!Agent::isMobile())
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 1</span>
+                        <p>
+                            Dive Table 1 is used to calculate your pressure group after a dive.
+                        </p><br>
+                        <p>
+                            To use this version of the table, match your max depth to the table header.
+                            Move down until you find the table cell with the smallest value that is greater than your bottom time.
+                            Your pressure group will be the leftmost value in that row.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 1</span>
+                        <table class="bordered striped centered dive_table responsive">
+                            <thead>
                             <tr>
-                                <th>{{ $group }}</th>
-                                @for($i = 0; $i < count($table_1_header); $i++)
-                                    <td>{{ isset($row[$i]) ? $row[$i] : "" }}</td>
-                                @endfor
+                                <th></th>
+                                @foreach($table_1_header as $cell)
+                                    <th>{{ $cell }}</th>
+                                @endforeach
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($table_1_body as $group => $row)
+                                <tr>
+                                    <th>{{ $group }}</th>
+                                    @for($i = 0; $i < count($table_1_header); $i++)
+                                        <td>{{ isset($row[$i]) ? $row[$i] : "" }}</td>
+                                    @endfor
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col s12 l8 offset-l2">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title blue-text text-darken-4">PADI Dive Table 2</span>
-                    <table class="bordered striped centered dive_table responsive">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            @foreach($table_header as $cell)
-                                <th>{{ $cell }}</th>
-                            @endforeach
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($table_2_body as $group => $row)
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 2</span>
+                        <p>
+                            Dive Table 2 is used to calculate your new pressure group after a surface interval.
+                        </p><br>
+                        <p>
+                            To use this version of the table, match your starting pressure group to the left column.
+                            Move across until you find the table cell with values (in minutes) within which your surface interval time would fall.
+                            Your post surface interval pressure group will be that column's header.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l8">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 2</span>
+                        <table class="bordered striped centered dive_table responsive">
+                            <thead>
                             <tr>
-                                <th>{{ $group }}</th>
-                                @for($i = 0; $i < count($table_header); $i++)
-                                    <td>
-                                        {{ isset($row[$i]) ? isset($row[$i+1]) ? $row[$i+1] + 1 : 0 : '' }}<br>
-                                        {{ isset($row[$i]) ? $row[$i] : "" }}
-                                    </td>
-                                @endfor
+                                <th></th>
+                                @foreach($table_header as $cell)
+                                    <th>{{ $cell }}</th>
+                                @endforeach
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($table_2_body as $group => $row)
+                                <tr>
+                                    <th>{{ $group }}</th>
+                                    @for($i = 0; $i < count($table_header); $i++)
+                                        <td>
+                                            {{ isset($row[$i]) ? isset($row[$i+1]) ? $row[$i+1] + 1 : 0 : '' }}<br>
+                                            {{ isset($row[$i]) ? $row[$i] : "" }}
+                                        </td>
+                                    @endfor
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 3</span>
+                        <p>
+                            Dive Table 3 is used to calculate residual nitrogen times after a surface interval.
+                        </p><br>
+                        <p>
+                            To use this version of the table, match your post surface interval pressure group to the table headers.
+                            Move down until you find your planned depth in the leftmost columnj.  This value is your Residual Nitrogen Time.  This value
+                            is added to your dive's bottom time to calculate your new pressure group.  This time can also be subtracted from the
+                            maximum bottom time at a give depth to get your adjusted maximum bottom time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l8">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-4">PADI Dive Table 3</span>
+                        <table class="bordered striped centered dive_table responsive">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                @foreach($table_header as $cell)
+                                    <th>{{ $cell }}</th>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($table_3_body as $group => $row)
+                                <tr>
+                                    <th>{{ $group }}</th>
+                                    @for($i = 0; $i < count($table_header); $i++)
+                                        <td>
+                                            {{ isset($row[$i]) ? $row[$i] : "" }}
+                                        </td>
+                                    @endfor
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @stop
 
 @push('body_scripts')

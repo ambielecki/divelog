@@ -11,8 +11,8 @@
 @section('content')
     <div class="container image_page">
         <div class="row">
-            <div class="col s12 m12 l8 offset-l2 card-panel">
-                <h2 class="header blue-text text-darken-4">Edit Home Page</h2>
+            <div class="col s12 m12 l8 offset-l2 card">
+                <span class="card-title blue-text text-darken-4">Edit Home Page</span>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('home_edit') }}">
                     {{ csrf_field() }}
                     <div class="row">

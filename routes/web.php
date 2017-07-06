@@ -17,7 +17,8 @@ Route::get('/updates', 'PageController@getUpdates')->name('updates');
 
 Auth::routes();
 
-Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function() {
+//admin routes
+Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@getAdmin')->name('admin');
 
     Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
@@ -31,23 +32,47 @@ Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function() {
         Route::post('/edit', 'ImageController@postEdit');
     });
 
-    Route::get('image_folder/list', 'ImageController@getFolderList')->name('image_folder_list');
-    Route::get('image_folder/create', 'ImageController@getFolderCreate')->name('image_folder_create');
-    Route::post('image_folder/create', 'ImageController@postFolderCreate');
+    Route::group(['prefix' => 'image_folder'], function () {
+        Route::get('/list', 'ImageController@getFolderList')->name('image_folder_list');
+        Route::get('/create', 'ImageController@getFolderCreate')->name('image_folder_create');
+        Route::post('/create', 'ImageController@postFolderCreate');
+    });
 
-    Route::get('page/list', 'PageController@getList')->name('page_list');
-    Route::get('page/create', 'PageController@getCreate')->name('page_create');
-    Route::post('page/create', 'PageController@postCreate');
+    Route::group(['prefix' => 'blog'], function () {
+        Route::get('/list/{page?}', 'BlogController@getAdminList')->name('blog_admin_list');
+        Route::get('/create', 'BlogController@getCreate')->name('blog_create');
+        Route::post('/create', 'BlogController@postCreate');
+        Route::get('/edit/{href}', 'BlogController@getEdit')->name('blog_edit');
+        Route::post('/edit/{href}', 'BlogController@postEdit');
+        Route::post('/disable/{href}', 'BlogController@postDisable')->name('blog_disable');
+    });
+
+    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
-Route::get('/divelog', 'DiveLogController@getDiveLog')->name('divelog');
+Route::group(['prefix' => 'divelog'], function () {
+    Route::get('/list/{page?}', 'DiveLogController@getList')->name('divelog_list');
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/create', 'DiveLogController@getCreate')->name('divelog_create');
+        Route::post('/create', 'DiveLogController@postCreate');
+
+        Route::get('/edit/{id}', 'DiveLogController@getEdit')->name('divelog_edit');
+        Route::post('/edit/{id}', 'DiveLogController@postEdit');
+    });
+});
+
+Route::group(['prefix' => 'updates'], function () {
+    Route::get('/list', 'BlogController@getList')->name('updates_list');
+
+    Route::group(['middleware' => 'auth'], function () {
+    });
+});
 
 Route::get('/calculator', 'DiveCalculatorController@getCalculator')->name('calculator');
-
-Route::get('/logs','\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::get('/test2', 'TestController@getTest2');
 
 //image routes
-Route::get('/images/{folder}/{file}','ImageController@getImage');
-Route::get('/fullimage/{folder}/{file}','ImageController@getFullImage');
+Route::get('/images/{folder}/{file}', 'ImageController@getImage');
+Route::get('/fullimage/{folder}/{file}', 'ImageController@getFullImage');

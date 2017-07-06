@@ -52,5 +52,5 @@
 @push('body_scripts')
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="/js/image-picker.min.js"></script>
-    <script src="/js/image_list.js"></script>
+    <script src="/js/image/image_list.js"></script>
 @endpush

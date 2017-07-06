@@ -7,7 +7,7 @@
 @section('content')
     <div class="container image_page">
         <div class="row">
-            <div class="col s12 m12 l8 offset-l2 card-panel">
+            <div class="col s12 m12 l8 offset-l2 card">
                 <span class="card-title blue-text text-darken-4">Upload an Image</span>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('image_upload') }}" enctype="multipart/form-data">
                     {{ csrf_field() }}

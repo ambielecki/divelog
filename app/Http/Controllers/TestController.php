@@ -9,11 +9,12 @@ use App\ImageFolder;
 use Storage;
 use App\MongoPage;
 use App\Libraries\DiveCalculator;
+use App\BlogPage;
 
 class TestController extends Controller
 {
     public function getTest2() {
-       $calculator = new DiveCalculator();
-       return $calculator->getMaxBottomTime(70);
+        $test_string = "Here is_ :a test:Title 6/7/10";
+        return BlogPage::createHref($test_string);
     }
 }

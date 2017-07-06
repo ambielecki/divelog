@@ -25,5 +25,14 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h4>Blog Posts</h4></li>
+                    <li class="collection-item"><a href="{{ route('blog_admin_list') }}">Blog Post List</a></li>
+                    <li class="collection-item"><a href="{{ route('blog_create') }}">Create Post</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 @stop
