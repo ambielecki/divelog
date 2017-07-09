@@ -18,13 +18,13 @@ Route::get('/updates', 'PageController@getUpdates')->name('updates');
 Auth::routes();
 
 //admin routes
-Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'isadmin', 'prefix' => '/admin'], function () {
     Route::get('/', 'AdminController@getAdmin')->name('admin');
 
     Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
     Route::post('/home/edit', 'HomeController@postEditHome');
 
-    Route::group(['prefix' => 'image'], function () {
+    Route::group(['prefix' => '/image'], function () {
         Route::get('/list', 'ImageController@getImageList')->name('image_list');
         Route::get('/upload', 'ImageController@getUploadImage')->name('image_upload');
         Route::post('/upload', 'ImageController@postUploadImage');
@@ -32,13 +32,13 @@ Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function () {
         Route::post('/edit', 'ImageController@postEdit');
     });
 
-    Route::group(['prefix' => 'image_folder'], function () {
+    Route::group(['prefix' => '/image_folder'], function () {
         Route::get('/list', 'ImageController@getFolderList')->name('image_folder_list');
         Route::get('/create', 'ImageController@getFolderCreate')->name('image_folder_create');
         Route::post('/create', 'ImageController@postFolderCreate');
     });
 
-    Route::group(['prefix' => 'blog'], function () {
+    Route::group(['prefix' => '/blog'], function () {
         Route::get('/list/{page?}', 'BlogController@getAdminList')->name('blog_admin_list');
         Route::get('/create', 'BlogController@getCreate')->name('blog_create');
         Route::post('/create', 'BlogController@postCreate');
@@ -50,7 +50,7 @@ Route::group(['middleware' => 'isadmin', 'prefix' => 'admin'], function () {
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
-Route::group(['prefix' => 'divelog'], function () {
+Route::group(['prefix' => '/divelog'], function () {
     Route::get('/list/{page?}', 'DiveLogController@getList')->name('divelog_list');
 
     Route::group(['middleware' => 'auth'], function () {
@@ -62,7 +62,7 @@ Route::group(['prefix' => 'divelog'], function () {
     });
 });
 
-Route::group(['prefix' => 'updates'], function () {
+Route::group(['prefix' => '/updates'], function () {
     Route::get('/list', 'BlogController@getList')->name('updates_list');
 
     Route::group(['middleware' => 'auth'], function () {
