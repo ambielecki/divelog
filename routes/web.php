@@ -64,9 +64,7 @@ Route::group(['prefix' => '/divelog'], function () {
 
 Route::group(['prefix' => '/updates'], function () {
     Route::get('/list', 'BlogController@getList')->name('updates_list');
-
-    Route::group(['middleware' => 'auth'], function () {
-    });
+    Route::get('/view/{slug}', 'BlogController@getView')->name('updates_view');
 });
 
 Route::get('/calculator', 'DiveCalculatorController@getCalculator')->name('calculator');

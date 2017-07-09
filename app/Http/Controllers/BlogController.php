@@ -20,11 +20,20 @@ class BlogController extends Controller
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
         $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->skip($skip)->limit($limit)->get();
         return view('blog.blog_list', [
-            'posts'         => $posts,
-            'pages'         => $pages,
-            'current_page'  => $page,
-            'limit'         => $limit,
-            'skip'          => $skip
+            'posts'        => $posts,
+            'pages'        => $pages,
+            'current_page' => $page,
+            'limit'        => $limit,
+            'skip'         => $skip,
+        ]);
+    }
+
+    public function getView($slug) {
+        $page = BlogPage::where('href', '=', $slug)->where('is_active', '=', true)->first();
+        $images = Image::whereIn('id', $page->images)->with('image_folder')->get();
+        return view('blog.blog_view', [
+            'page'   => $page,
+            'images' => $images,
         ]);
     }
 
@@ -37,18 +46,18 @@ class BlogController extends Controller
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
         $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->skip($skip)->limit($limit)->get();
         return view('admin.blog.blog_list', [
-            'posts'         => $posts,
-            'pages'         => $pages,
-            'current_page'  => $page,
-            'limit'         => $limit,
-            'skip'          => $skip
+            'posts'        => $posts,
+            'pages'        => $pages,
+            'current_page' => $page,
+            'limit'        => $limit,
+            'skip'         => $skip,
         ]);
     }
 
     public function getCreate() {
         $folders = ImageFolder::get();
         return view('admin.blog.blog_create', [
-            'folders' => $folders
+            'folders' => $folders,
         ]);
     }
 
@@ -85,7 +94,7 @@ class BlogController extends Controller
             'post'          => $post,
             'images'        => $images,
             'image_folders' => $image_folders,
-            'href'          => $href
+            'href'          => $href,
         ]);
     }
 
@@ -126,7 +135,7 @@ class BlogController extends Controller
 
     public function postCheckHref(Request $request) {
         $this->validate($request, [
-            'title' => 'string'
+            'title' => 'string',
         ]);
         $title = $request->input('title');
         $href = BlogPage::createHref($title);
@@ -137,7 +146,7 @@ class BlogController extends Controller
         }
         return response()->json([
             'href'  => $href,
-            'check' => $check
+            'check' => $check,
         ]);
     }
 }

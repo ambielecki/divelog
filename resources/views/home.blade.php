@@ -81,7 +81,7 @@
                                         {!! $post->short_description !!}
                                     </div>
                                     <div>
-                                        <a href="{{ route('blog_edit', ['href' => $post->href]) }}" class="btn blue darken-4">Read Post</a>
+                                        <a href="{{ route('updates_view', ['href' => $post->href]) }}" class="btn blue darken-4">Read Post</a>
                                     </div>
                                 </div>
                             </div>
