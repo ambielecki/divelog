@@ -84,9 +84,11 @@
                             <label for="active">Set Active</label>
                         </div>
                     </div>
+                    <input type="hidden" value="list" name="submit_action" id="submit_action">
                     <div class="row">
                         <div class="col s12">
-                            <button type="submit" class="btn blue darken-4">Submit</button>
+                            <button type="submit" class="btn blue darken-4" id="submit_and_list">Submit</button>
+                            <button type="submit" class="btn blue darken-4" id="submit_and_add">Submit & Upload Another Image</button>
                         </div>
                     </div>
                 </form>
@@ -96,9 +98,5 @@
 @stop
 
 @push('body_scripts')
-    <script>
-        $(document).ready(function() {
-            $('select').material_select();
-        });
-    </script>
+<script src="/js/admin/image/image_upload.js"></script>
 @endpush

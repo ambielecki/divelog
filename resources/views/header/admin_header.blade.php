@@ -1,19 +1,5 @@
 <header>
-    {{-- Flash Message Code --}}
-    @if(\Session::has('flash_warning'))
-        <div class="row flash">
-            <div class="col s12 red darken-4 white-text">
-                <span class="flow-text">{{\Session::get('flash_warning')}}</span>
-            </div>
-        </div>
-    @endif
-    @if(\Session::has('flash_success'))
-        <div class="row flash">
-            <div class="col s12 green darken-2 white-text">
-                <span class="flow-text">{{\Session::get('flash_success')}}</span>
-            </div>
-        </div>
-    @endif
+    @include('flash_message')
     <ul id="image_dropdown" class="dropdown-content text-blue">
         <li><a href="{{ route('image_list') }}">Image List</a></li>
         <li><a href="{{ route('image_upload') }}">Upload Image</a></li>

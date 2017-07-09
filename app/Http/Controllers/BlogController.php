@@ -11,6 +11,23 @@ use Session;
 class BlogController extends Controller
 {
 
+    public function getList($page = 1) {
+        $limit = 10;
+        $skip = 0;
+        if ($page) {
+            $skip = ($page - 1) * $limit;
+        }
+        $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
+        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->skip($skip)->limit($limit)->get();
+        return view('blog.blog_list', [
+            'posts'         => $posts,
+            'pages'         => $pages,
+            'current_page'  => $page,
+            'limit'         => $limit,
+            'skip'          => $skip
+        ]);
+    }
+
     public function getAdminList($page = 1) {
         $limit = 10;
         $skip = 0;
@@ -116,7 +133,7 @@ class BlogController extends Controller
         $href_check = BlogPage::where('href', '=', $href)->get();
         $check = true;
         if (count($href_check)) {
-           $check = false;
+            $check = false;
         }
         return response()->json([
             'href'  => $href,

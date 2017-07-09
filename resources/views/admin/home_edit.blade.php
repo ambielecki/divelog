@@ -84,7 +84,7 @@
                             <label class="form_label" for="image_hero">Hero Image</label>
                             <select name="image_hero" id="image_hero" class="image-picker">
                                 @foreach ($hero_images->images as $image)
-                                    <option data-img-src="/images/{{ $hero_images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $image->id == $page->hero_image ? "selected" :"" }}></option>
+                                    <option data-img-src="/images/{{ $hero_images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $image->id == $page->image_hero ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
                         </div>

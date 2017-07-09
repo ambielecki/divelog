@@ -1,19 +1,5 @@
 <header>
-    {{-- Flash Message Code --}}
-    @if(\Session::has('flash_warning'))
-        <div class="row flash">
-            <div class="col s12 red darken-4 white-text">
-                <span class="flow-text">{{ \Session::get('flash_warning') }}</span>
-            </div>
-        </div>
-    @endif
-    @if(\Session::has('flash_success'))
-        <div class="row flash">
-            <div class="col s12 green darken-2 white-text">
-                <span class="flow-text">{{ \Session::get('flash_success') }}</span>
-            </div>
-        </div>
-    @endif
+    @include('flash_message')
     <ul id="login_dropdown" class="dropdown-content text-blue">
         <li><a href="{{ route('login') }}">Log In</a></li>
         <li><a href="{{ route('register') }}">Register</a></li>
@@ -53,10 +39,11 @@
                             @if (Auth::user()->level <= 1)
                                 <li><a href="{{ 'admin' }}">Admin</a></li>
                             @endif
-                            <li><a href="{{ route('logout') }}"
+                            <li>
+                                <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
-                                   document.getElementById('logout-form').submit();">Log Out</a>
-
+                                   document.getElementById('logout-form').submit();">Log Out
+                                </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form>

@@ -158,10 +158,14 @@ class ImageController extends Controller
     }
 
     public function postUploadImage(ImageUploadRequest $request) {
+        $route = 'image_list';
+        if ('add' == $request->input('submit_action')) {
+            $route = 'image_upload';
+        }
         $status = Image::uploadImage($request);
         if ($status) {
             Session::flash('flash_success', 'Image Uploaded Successfully');
-            return redirect()->route('image_list');
+            return redirect()->route($route);
         } else {
             Session::flash('flash_warning', 'There was a problem saving your image, please try again');
             return redirect()->route('image_upload')->withInput();

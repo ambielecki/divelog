@@ -11,8 +11,7 @@ class ImageUploadRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
@@ -21,26 +20,25 @@ class ImageUploadRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'photo'         => 'required|image|max:10000',
             'folder'        => 'required',
             'heading'       => 'string|nullable',
             'subheading'    => 'string|nullable',
-            'description'   => 'string|required|max:140'
+            'description'   => 'string|required|max:140',
+            'submit_action' => 'in:list,add',
         ];
     }
 
-    public function messages()
-    {
+    public function messages() {
         return [
-            'photo.required'        => 'Please select a file',
-            'photo.image'           => 'File type not recognized, please select a valid image',
-            'photo.max'             => 'Upload max 10M',
-            'folder.required'       => 'Please Select a Folder',
-            'description.required'  => 'Please provide a short description',
-            'description.max'       => 'Maximum Length is 140 characters'
+            'photo.required'       => 'Please select a file',
+            'photo.image'          => 'File type not recognized, please select a valid image',
+            'photo.max'            => 'Upload max 10M',
+            'folder.required'      => 'Please Select a Folder',
+            'description.required' => 'Please provide a short description',
+            'description.max'      => 'Maximum Length is 140 characters',
         ];
     }
 }
