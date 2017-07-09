@@ -34,6 +34,9 @@ class HomeController extends Controller
 
     public function getEditHome() {
         $page = MongoPage::where('name', '=', 'home')->where('active', '=', true)->orderBy('created_at', 'DESC')->first();
+        if (!$page) {
+            $page = new MongoPage();
+        }
         $images = ImageFolder::where('name', '=', 'home')->with('images')->first();
         $hero_images = ImageFolder::where('name', '=', 'hero')->with('images')->first();
 
@@ -54,12 +57,12 @@ class HomeController extends Controller
         $page->name = 'home';
         $page->title = $request->input('title');
         $page->content = $request->input('content');
-        if ( $request->input('hero_title') != "") {
+        if ($request->input('hero_title') != "") {
             $page->hero_title = $request->input('hero_title');
         }
         $page->image_hero = $request->input('image_hero');
         $page->images_single = $request->input('image_single');
-        if ( $request->input('carousel_title') != "") {
+        if ($request->input('carousel_title') != "") {
             $page->carousel_title = $request->input('carousel_title');
         }
         $page->images_carousel = $request->input('image_carousel');
