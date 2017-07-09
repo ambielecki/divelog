@@ -53,7 +53,7 @@
                             <label class="form_label" for="image_carousel">Select Carousel Images (Max 5)</label>
                             <select multiple name="image_carousel[]" id="image_carousel" class="image-picker">
                                 @foreach ($images->images as $image)
-                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $page->images_carousel) ? "selected" : "" }}></option>
+                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $page->images_carousel && in_array($image->id, $page->images_carousel) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +63,7 @@
                             <label class="form_label" for="image_single">Select Single Images (Max 3)</label>
                             <select multiple name="image_single[]" id="image_single" class="image-picker">
                                 @foreach ($images->images as $image)
-                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ in_array($image->id, $page->images_single) ? "selected" : "" }}></option>
+                                    <option data-img-src="/images/{{ $images->name }}/{{ $image->filename }}.jpg?size=150" value={{ $image->id }} {{ $page->images_single && in_array($image->id, $page->images_single) ? "selected" : "" }}></option>
                                 @endforeach
                             </select>
                         </div>
