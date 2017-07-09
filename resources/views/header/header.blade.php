@@ -37,7 +37,7 @@
                         <li><a href="{{ route('updates_list') }}">Updates</a></li>
                         @if (Auth::check())
                             @if (Auth::user()->level <= 1)
-                                <li><a href="{{ 'admin' }}">Admin</a></li>
+                                <li><a href="{{ route('admin') }}">Admin</a></li>
                             @endif
                             <li>
                                 <a href="{{ route('logout') }}"
