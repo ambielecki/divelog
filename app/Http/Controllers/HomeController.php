@@ -33,7 +33,7 @@ class HomeController extends Controller
     }
 
     public function getEditHome() {
-        $page = MongoPage::where('name', '=', 'home2')->where('active', '=', true)->orderBy('created_at', 'DESC')->first();
+        $page = MongoPage::where('name', '=', 'home')->where('active', '=', true)->orderBy('created_at', 'DESC')->first();
         if (!$page) {
             $page = new MongoPage();
         }
