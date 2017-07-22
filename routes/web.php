@@ -17,8 +17,18 @@ Route::get('/updates', 'PageController@getUpdates')->name('updates');
 
 Auth::routes();
 
+//logged in users
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/settings', 'UserController@getSettings')->name('user_settings');
+    Route::post('/settings', 'UserController@postSettings');
+});
+
 //admin routes
 Route::group(['middleware' => 'isadmin', 'prefix' => '/admin'], function () {
+    Route::get('/info', function () {
+        phpinfo();
+    });
     Route::get('/', 'AdminController@getAdmin')->name('admin');
 
     Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
@@ -47,6 +57,11 @@ Route::group(['middleware' => 'isadmin', 'prefix' => '/admin'], function () {
         Route::post('/disable/{href}', 'BlogController@postDisable')->name('blog_disable');
     });
 
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/list', 'UserController@getList')->name('user_list');
+        Route::get('/edit/{id}', 'UserController@getEdit')->name('user_edit');
+    });
+
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
@@ -59,6 +74,8 @@ Route::group(['prefix' => '/divelog'], function () {
 
         Route::get('/edit/{id}', 'DiveLogController@getEdit')->name('divelog_edit');
         Route::post('/edit/{id}', 'DiveLogController@postEdit');
+
+        Route::get('/pdf/{id}', 'DiveLogController@getPdf')->name('divelog_pdf');
     });
 });
 

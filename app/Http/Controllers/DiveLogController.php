@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DiveLogPage;
 use App\Http\Requests\DiveLogRequest;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
 class DiveLogController extends Controller
@@ -77,5 +79,16 @@ class DiveLogController extends Controller
         $dive_log->fill($data);
         $dive_log->save();
         return redirect()->route('divelog_list');
+    }
+
+    public function getPdf($id) {
+        $dive_log = DiveLogPage::find($id);
+        if ($dive_log->user_id !== auth()->user()->id) {
+            Session::flash('flash_warning', 'You are not authorized to view this log');
+            return redirect()->back();
+        }
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML('<h1>Test</h1>');
+        return $pdf->download('dive_log.pdf');
     }
 }

@@ -4,6 +4,17 @@
         <li><a href="{{ route('login') }}">Log In</a></li>
         <li><a href="{{ route('register') }}">Register</a></li>
     </ul>
+    <ul id="logout_dropdown" class="dropdown-content text-blue">
+        <li><a href="{{ route('logout') }}"
+               onclick="event.preventDefault();
+                                   document.getElementById('logout-form').submit();">Log Out</a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+        </li>
+        <li><a href="{{ route('user_settings') }}">Settings</a></li>
+    </ul>
     <nav class="blue darken-4">
         <div class="nav-wrapper">
             <div class="row">
@@ -15,17 +26,10 @@
                         <li><a href="{{ route('divelog_list') }}">Dive Log</a></li>
                         <li><a href="{{ route('updates_list') }}">Updates</a></li>
                         @if (Auth::check())
-                            @if (Auth::user()->level <= 1)
+                            @isAdmin
                                 <li><a href="{{ route('admin') }}">Admin</a></li>
-                            @endif
-                            <li><a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                   document.getElementById('logout-form').submit();">Log Out</a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
+                            @endAdmin
+                            <li><a class="dropdown-button" href="#!" data-activates="logout_dropdown">Log Out / Settings<i class="material-icons right">arrow_drop_down</i></a></li>
                         @else
                             <li><a class="dropdown-button" href="#!" data-activates="login_dropdown">Log In / Register<i class="material-icons right">arrow_drop_down</i></a></li>
                         @endif
@@ -36,18 +40,28 @@
                         <li><a href="{{ route('divelog_list') }}">Dive Log</a></li>
                         <li><a href="{{ route('updates_list') }}">Updates</a></li>
                         @if (Auth::check())
-                            @if (Auth::user()->level <= 1)
+                            @isAdmin
                                 <li><a href="{{ route('admin') }}">Admin</a></li>
-                            @endif
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                   document.getElementById('logout-form').submit();">Log Out
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
+                            @endAdmin
+                            <ul class="collapsible" data-collapsible="accordian">
+                                <li>
+                                    <div class="collapsible-header black-text">Log Out / Settings</div>
+                                    <div class="collapsible-body side_nav_collapse">
+                                        <ul>
+                                            <li>
+                                                <a href="{{ route('logout') }}"
+                                                   onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();">Log Out
+                                                </a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                </form>
+                                            </li>
+                                            <li><a href="{{ route('user_settings') }}">Settings</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
                         @else
                             <ul class="collapsible" data-collapsible="accordian">
                                 <li>

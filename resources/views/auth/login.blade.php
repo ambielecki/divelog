@@ -12,7 +12,7 @@
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="input-field col s12{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="input-field col s12">
                             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
                             <label for="email">E-Mail Address</label>
                             @if ($errors->has('email'))
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s12{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class="input-field col s12">
                             <input id="password" type="password" name="password" required>
                             <label for="password">Password</label>
                             @if ($errors->has('password'))
@@ -51,3 +51,11 @@
         </div>
     </div>
 @stop
+
+@push('body_scripts')
+<script>
+    $(document).ready(function () {
+        Materialize.updateTextFields();
+    });
+</script>
+@endpush

@@ -3,15 +3,13 @@
 use Illuminate\Database\Seeder;
 use App\User;
 
-class UsersTableSeeder extends Seeder
-{
+class UsersTableSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         $user = new User();
         $user->name = "Andrew Bielecki";
         $user->email = "ambielecki@gmail.com";

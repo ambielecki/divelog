@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,yBAA0B;EACtB,MAAM,EAAE,CAAC;EACT,MAAM,EAAE,OAAO",
+"sources": ["divelog.scss"],
+"names": [],
+"file": "divelog.css"
+}
