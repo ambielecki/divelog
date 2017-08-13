@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiveCalculatorRequest;
 use App\Http\Requests\LogCalculatorRequest;
-use App\Libraries\DiveCalculator;
+use Ambielecki\DiveCalculator\DiveCalculator;
 
 class DiveCalculatorController extends Controller
 {

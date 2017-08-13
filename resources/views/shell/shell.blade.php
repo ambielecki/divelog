@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     {{--<link rel='icon' href='/images/favicon.ico'>--}}
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <script src="https://use.fontawesome.com/80a4def2f5.js"></script>
     <link rel="stylesheet" href="/css/main.css">

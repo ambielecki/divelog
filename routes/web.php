@@ -86,6 +86,10 @@ Route::group(['prefix' => '/updates'], function () {
 
 Route::get('/calculator', 'DiveCalculatorController@getCalculator')->name('calculator');
 
+Route::group(['prefix' => '/sales'], function () {
+    Route::get('/list', 'CartController@getList')->name('product_list');
+});
+
 Route::get('/test2', 'TestController@getTest2');
 
 //image routes
