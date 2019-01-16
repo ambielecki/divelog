@@ -11,7 +11,7 @@ use Session;
 
 class HomeController extends Controller {
     public function getHome() {
-        $page = Page::where('name', '=', 'home')
+        $page = Page::where('slug', '=', 'home')
             ->where('active', '=', true)
             ->orderBy('created_at', 'DESC')
             ->first();
@@ -19,22 +19,22 @@ class HomeController extends Controller {
         $image_hero = $page->image_hero ? Image::with('image_folder')->find($page->image_hero) : '';
         $images_carousel = $page->images_carousel ? Image::with('image_folder')->findMany($page->images_carousel) : [];
         $images_single = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
-        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
+//        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
         $posts_images = [];
 
-        foreach ($posts as $post) {
-            $posts_images[] = Image::with('image_folder')->findMany($post->images);
-        }
+//        foreach ($posts as $post) {
+//            $posts_images[] = Image::with('image_folder')->findMany($post->images);
+//        }
 
         return view(
             'home', [
-            'page'            => $page,
-            'image_hero'      => $image_hero,
-            'images_carousel' => $images_carousel,
-            'images_single'   => $images_single,
-            'posts'           => $posts,
-            'posts_images'    => $posts_images,
-        ]
+                'page'            => $page,
+                'image_hero'      => $image_hero,
+                'images_carousel' => $images_carousel,
+                'images_single'   => $images_single,
+                'posts'           => [],
+                'posts_images'    => $posts_images,
+            ]
         );
     }
 
@@ -56,18 +56,17 @@ class HomeController extends Controller {
             'page'        => $page,
             'hero_images' => $hero_images,
             'images'      => $images,
-        ]
-        );
+        ]);
     }
 
     public function postEditHome(Request $request) {
-        Page::where('name', '=', 'home')
+        Page::where('slug', '=', 'home')
             ->where('active', '=', true)
             ->update(['active' => false]);
 
         $page = new Page();
         $page->slug = 'home';
-        $page->active = $request->input('active') ? true : false;
+        $page->active = true;
         $page->data = [
             'name'            => 'home',
             'title'           => $request->input('title'),
