@@ -10,7 +10,6 @@ use Session;
 
 class BlogController extends Controller
 {
-
     public function getList($page = 1) {
         $limit = 10;
         $skip = 0;
@@ -40,11 +39,18 @@ class BlogController extends Controller
     public function getAdminList($page = 1) {
         $limit = 10;
         $skip = 0;
+
         if ($page) {
             $skip = ($page - 1) * $limit;
         }
+
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
-        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->skip($skip)->limit($limit)->get();
+        $posts = BlogPage::where('is_active', '=', true)
+            ->orderBy('created_at', 'DESC')
+            ->skip($skip)
+            ->limit($limit)
+            ->get();
+
         return view('admin.blog.blog_list', [
             'posts'        => $posts,
             'pages'        => $pages,
@@ -56,6 +62,7 @@ class BlogController extends Controller
 
     public function getCreate() {
         $folders = ImageFolder::get();
+
         return view('admin.blog.blog_create', [
             'folders' => $folders,
         ]);
@@ -69,21 +76,25 @@ class BlogController extends Controller
         ]);
 
         $href = BlogPage::createHref($request->input('title'));
-        $href_check = BlogPage::where('href', '=', $href)->get();
+        $href_check = BlogPage::where('slug', '=', $href)->get();
 
         if (count($href_check)) {
-            return redirect()->route('blog_create')->withInput()->with('href_error', 'A similar title already exists, please try again');
-        } else {
-            $post = new BlogPage();
-            $post = BlogPage::persist($post, $request, $href);
-            if ($post->save()) {
-                Session::flash('flash_success', 'Post Created Successfully');
-                return redirect()->route('blog_admin_list');
-            } else {
-                Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
-                return redirect()->route('blog_create')->withInput();
-            }
+            return redirect()
+                ->route('blog_create')
+                ->withInput()
+                ->with('href_error', 'A similar title already exists, please try again');
         }
+
+        $post = new BlogPage();
+        $post = BlogPage::persist($post, $request, $href);
+
+        if ($post->save()) {
+            Session::flash('flash_success', 'Post Created Successfully');
+            return redirect()->route('blog_admin_list');
+        }
+
+        Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
+        return redirect()->route('blog_create')->withInput();
     }
 
     public function getEdit($href) {

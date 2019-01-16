@@ -2,33 +2,35 @@
 
 namespace App;
 
-use Jenssegers\Mongodb\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class BlogPage extends Model
-{
-    protected $collection = 'blog_page';
+class BlogPage extends Page {
+    protected static function boot() {
+        parent::boot();
 
-    protected $connection = 'mongodb';
+        static::creating(function ($query) {
+            $query->page_type = 'blog';
+        });
+    }
 
-    /**
-     * @param $title
-     * @return mixed|string
-     */
-    public static function createHref($title) {
+    public static function createHref(string $title): string {
         $href = preg_replace('/\s+|\:+|\_+|\/+/', '-', $title);
-        $href = preg_replace('/\./', '', $href);
+        $href = str_replace('.', '', $href);
         $href = strtolower(trim(preg_replace('/\-+/', '-', $href)));
+
         return $href;
     }
 
-    public static function persist(BlogPage $post, Request $request, $href) {
-        $post->title = $request->input('title');
-        $post->href = $href;
-        $post->short_description = $request->input('short_description');
-        $post->content = $request->input('content');
-        $post->images = $request->input('images');
-        $post->is_active = true;
+    public static function persist(BlogPage $post, Request $request, $href): BlogPage {
+        $post->slug = $href;
+        $post->active = true;
+        $post->data = [
+            'content'           => $request->input('content'),
+            'images'            => $request->input('images'),
+            'short_description' => $request->input('short_description'),
+            'title'             => $request->input('title'),
+        ];
+
         return $post;
     }
 }

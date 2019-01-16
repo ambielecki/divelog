@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\BlogPage;
 use App\Image;
 use App\ImageFolder;
-use App\Page;
+use App\HomePage;
 use Illuminate\Http\Request;
 use Session;
 
 class HomeController extends Controller {
     public function getHome() {
-        $page = Page::where('slug', '=', 'home')
+        $page = HomePage::where('slug', '=', 'home')
             ->where('active', '=', true)
             ->orderBy('created_at', 'DESC')
             ->first();
@@ -39,13 +38,13 @@ class HomeController extends Controller {
     }
 
     public function getEditHome() {
-        $page = Page::where('slug', '=', 'home')
+        $page = HomePage::where('slug', '=', 'home')
             ->where('active', '=', true)
             ->orderBy('created_at', 'DESC')
             ->first();
 
         if (!$page) {
-            $page = new Page();
+            $page = new HomePage();
         }
 
         $images = ImageFolder::where('name', '=', 'home')->with('images')->first();
@@ -60,11 +59,11 @@ class HomeController extends Controller {
     }
 
     public function postEditHome(Request $request) {
-        Page::where('slug', '=', 'home')
+        HomePage::where('slug', '=', 'home')
             ->where('active', '=', true)
             ->update(['active' => false]);
 
-        $page = new Page();
+        $page = new HomePage();
         $page->slug = 'home';
         $page->active = true;
         $page->data = [
