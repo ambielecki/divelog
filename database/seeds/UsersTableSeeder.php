@@ -1,9 +1,8 @@
 <?php
 
-use App\ImageFolder;
 use Illuminate\Database\Seeder;
 
-class ImageFoldersTableSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +11,11 @@ class ImageFoldersTableSeeder extends Seeder
      */
     public function run()
     {
-        $folders = ['home', 'hero'];
-        foreach ($folders as $folder) {
-            ImageFolder::createFolder($folder);
-        }
+        $user = new \App\User();
+        $user->name = 'Andrew Bielecki';
+        $user->email = 'ambielecki@gmail.com';
+        $user->password = Hash::make('Ch@ng3m3');
+        $user->level = 1;
+        $user->save();
     }
 }
