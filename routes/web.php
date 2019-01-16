@@ -52,9 +52,9 @@ Route::group(['middleware' => 'isadmin', 'prefix' => '/admin'], function () {
         Route::get('/list/{page?}', 'BlogController@getAdminList')->name('blog_admin_list');
         Route::get('/create', 'BlogController@getCreate')->name('blog_create');
         Route::post('/create', 'BlogController@postCreate');
-        Route::get('/edit/{href}', 'BlogController@getEdit')->name('blog_edit');
-        Route::post('/edit/{href}', 'BlogController@postEdit');
-        Route::post('/disable/{href}', 'BlogController@postDisable')->name('blog_disable');
+        Route::get('/edit/{slug}', 'BlogController@getEdit')->name('blog_edit');
+        Route::post('/edit/{slug}', 'BlogController@postEdit');
+        Route::post('/disable/{slug}', 'BlogController@postDisable')->name('blog_disable');
     });
 
     Route::group(['prefix' => 'users'], function () {

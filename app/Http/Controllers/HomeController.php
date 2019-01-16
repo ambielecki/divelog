@@ -11,7 +11,7 @@ use Session;
 class HomeController extends Controller {
     public function getHome() {
         $page = HomePage::where('slug', '=', 'home')
-            ->where('active', '=', true)
+            ->where('is_active', '=', true)
             ->orderBy('created_at', 'DESC')
             ->first();
 
@@ -39,7 +39,7 @@ class HomeController extends Controller {
 
     public function getEditHome() {
         $page = HomePage::where('slug', '=', 'home')
-            ->where('active', '=', true)
+            ->where('is_active', '=', true)
             ->orderBy('created_at', 'DESC')
             ->first();
 
@@ -60,12 +60,12 @@ class HomeController extends Controller {
 
     public function postEditHome(Request $request) {
         HomePage::where('slug', '=', 'home')
-            ->where('active', '=', true)
-            ->update(['active' => false]);
+            ->where('is_active', '=', true)
+            ->update(['is_active' => false]);
 
         $page = new HomePage();
         $page->slug = 'home';
-        $page->active = true;
+        $page->is_active = true;
         $page->data = [
             'name'            => 'home',
             'title'           => $request->input('title'),

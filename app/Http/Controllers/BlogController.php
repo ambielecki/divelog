@@ -17,7 +17,11 @@ class BlogController extends Controller
             $skip = ($page - 1) * $limit;
         }
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
-        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->skip($skip)->limit($limit)->get();
+        $posts = BlogPage::where('is_active', true)
+            ->orderBy('created_at', 'DESC')
+            ->skip($skip)->limit($limit)
+            ->get();
+
         return view('blog.blog_list', [
             'posts'        => $posts,
             'pages'        => $pages,
@@ -75,18 +79,19 @@ class BlogController extends Controller
             'content'           => 'required',
         ]);
 
-        $href = BlogPage::createHref($request->input('title'));
-        $href_check = BlogPage::where('slug', '=', $href)->get();
+        $slug = BlogPage::createSlug($request->input('title'));
 
-        if (count($href_check)) {
+        $post = new BlogPage();
+        $slug_check = BlogPage::slugCheck($post, $slug);
+
+        if ($slug_check) {
             return redirect()
                 ->route('blog_create')
                 ->withInput()
                 ->with('href_error', 'A similar title already exists, please try again');
         }
 
-        $post = new BlogPage();
-        $post = BlogPage::persist($post, $request, $href);
+        $post = BlogPage::persist($post, $request, $slug);
 
         if ($post->save()) {
             Session::flash('flash_success', 'Post Created Successfully');
@@ -97,49 +102,51 @@ class BlogController extends Controller
         return redirect()->route('blog_create')->withInput();
     }
 
-    public function getEdit($href) {
-        $post = BlogPage::where('is_active', '=', true)->where('href', '=', $href)->first();
+    public function getEdit($slug) {
+        $post = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->first();
         $images = Image::with('image_folder')->findMany($post->images);
         $image_folders = ImageFolder::with('images')->get();
         return view('admin.blog.blog_edit', [
             'post'          => $post,
             'images'        => $images,
             'image_folders' => $image_folders,
-            'href'          => $href,
+            'href'          => $slug,
         ]);
     }
 
-    public function postEdit(Request $request, $href) {
+    public function postEdit(Request $request, $slug) {
         $this->validate($request, [
             'title'             => 'string|max:120|required',
             'short_description' => 'string|max:1000|required',
             'content'           => 'required',
         ]);
 
-        $previous_versions = BlogPage::where('is_active', '=', true)->where('href', '=', $href)->get();
+        $previous_versions = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->get();
         foreach ($previous_versions as $version) {
             $version->is_active = false;
             $version->save();
         }
         $post = new BlogPage();
-        $post = BlogPage::persist($post, $request, $href);
+        $post = BlogPage::persist($post, $request, $slug);
+
         if ($post->save()) {
             Session::flash('flash_success', 'Post Edited Successfully');
             return redirect()->route('blog_admin_list');
-        } else {
-            Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
-            return redirect()->route('blog_edit', ['href' => $request->input('href')])->withInput();
         }
+
+        Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
+        return redirect()->route('blog_edit', ['href' => $request->input('href')])->withInput();
     }
 
-    public function postDisable($href) {
-        $posts = BlogPage::where('is_active', '=', true)->where('href', '=', $href)->get();
+    public function postDisable($slug) {
+        $posts = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->get();
         foreach ($posts as $post) {
             $post->is_active = false;
             if (!$post->save()) {
                 Session::flash('flash_warning', 'There was a problem disabling this post, post try again');
             }
         }
+
         Session::flash('flash_success', 'Post Disabled');
         return redirect()->route('blog_admin_list');
     }
@@ -148,15 +155,18 @@ class BlogController extends Controller
         $this->validate($request, [
             'title' => 'string',
         ]);
+
         $title = $request->input('title');
-        $href = BlogPage::createHref($title);
-        $href_check = BlogPage::where('href', '=', $href)->get();
+        $slug = BlogPage::createSlug($title);
+        $slug_check = BlogPage::where('href', '=', $slug)->get();
         $check = true;
-        if (count($href_check)) {
+
+        if (count($slug_check)) {
             $check = false;
         }
+
         return response()->json([
-            'href'  => $href,
+            'href'  => $slug,
             'check' => $check,
         ]);
     }

@@ -9,14 +9,14 @@
         @foreach ($posts as $key => $post)
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title blue-text text-darken-4"><a href="/blog/{{ $post->href }}">{{ $post->title }}</a></span>
-                    {!! $post->short_description !!}
+                    <span class="card-title blue-text text-darken-4"><a href="/blog/{{ $post->slug }}">{{ $post->data['title'] }}</a></span>
+                    {!! $post->data['short_description'] ?? 'No Description Available' !!}
                     <div class="row">
                         <div class="col s6 l2">
-                            <a href="{{ route('blog_edit', ['href' => $post->href]) }}" class="btn blue darken-4">Edit Post</a>
+                            <a href="{{ route('blog_edit', ['href' => $post->slug]) }}" class="btn blue darken-4">Edit Post</a>
                         </div>
                         <div class="col s6 l2">
-                            <form class="form-horizontal" role="form" method="post" action="{{ route('blog_disable', ['href' => $post->href]) }}">
+                            <form class="form-horizontal" role="form" method="post" action="{{ route('blog_disable', ['href' => $post->slug]) }}">
                                 {{ csrf_field() }}
                                 <button class="btn blue darken-4 disable_btn">Disable Post</button>
                             </form>
