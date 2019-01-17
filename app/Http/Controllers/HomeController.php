@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BlogPage;
 use App\Image;
 use App\ImageFolder;
 use App\HomePage;
@@ -15,19 +16,22 @@ class HomeController extends Controller {
             ->orderBy('created_at', 'DESC')
             ->first();
 
+        $page = $page ?: new HomePage();
+
         $image_hero = $page->image_hero ? Image::with('image_folder')->find($page->image_hero) : '';
         $images_carousel = $page->images_carousel ? Image::with('image_folder')->findMany($page->images_carousel) : [];
         $images_single = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
-//        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
+        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
         $posts_images = [];
 
-//        foreach ($posts as $post) {
-//            $posts_images[] = Image::with('image_folder')->findMany($post->images);
-//        }
+        foreach ($posts as $post) {
+            $posts_images[] = Image::with('image_folder')->findMany($post->images);
+        }
 
         return view(
             'home', [
                 'page'            => $page,
+                'data'            => $page->data ?: [],
                 'image_hero'      => $image_hero,
                 'images_carousel' => $images_carousel,
                 'images_single'   => $images_single,

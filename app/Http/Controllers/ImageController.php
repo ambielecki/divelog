@@ -134,10 +134,10 @@ class ImageController extends Controller
         if ($status) {
             Session::flash('flash_success', 'Image Updated Successfully');
             return redirect()->route('image_list');
-        } else {
-            Session::flash('flash_warning', 'There was a problem saving your data, please try again');
-            return redirect('/admin/image_edit/' . $request->input('id'))->withInput();
         }
+
+        Session::flash('flash_warning', 'There was a problem saving your data, please try again');
+        return redirect('/admin/image_edit/' . $request->input('id'))->withInput();
     }
 
     /**
@@ -154,21 +154,22 @@ class ImageController extends Controller
 
     public function postUploadImage(ImageUploadRequest $request) {
         $route = 'image_list';
-        if ('add' == $request->input('submit_action')) {
+        if ('add' === $request->input('submit_action')) {
             $route = 'image_upload';
         }
         $status = Image::uploadImage($request);
         if ($status) {
             Session::flash('flash_success', 'Image Uploaded Successfully');
             return redirect()->route($route);
-        } else {
-            Session::flash('flash_warning', 'There was a problem saving your image, please try again');
-            return redirect()->route('image_upload')->withInput();
         }
+
+        Session::flash('flash_warning', 'There was a problem saving your image, please try again');
+        return redirect()->route('image_upload')->withInput();
     }
 
     public function getFolderList() {
         $folders = ImageFolder::get();
+        // TODO
         dump($folders->toArray());
     }
 
@@ -180,20 +181,22 @@ class ImageController extends Controller
         $this->validate($request, [
             'name' => 'required|string'
         ]);
+
         $name = strtolower($request->input('name'));
         $count = ImageFolder::where('name', '=', $name)->count();
+
         if ($count) {
             Session::flash('flash_warning', 'There was a problem saving your folder, the name already exists, please try again.');
             return redirect()->route('image_folder_create')->withInput();
-        } else {
-            $result = ImageFolder::createFolder($name);
         }
+
+        $result = ImageFolder::createFolder($name);
         if ($result) {
             Session::flash('flash_success', 'Image Uploaded Successfully');
             return redirect()->route('image_folder_list');
-        } else {
-            Session::flash('flash_warning', 'There was a problem saving your folder, please try again');
-            return redirect()->route('image_folder_create')->withInput();
         }
+
+        Session::flash('flash_warning', 'There was a problem saving your folder, please try again');
+        return redirect()->route('image_folder_create')->withInput();
     }
 }

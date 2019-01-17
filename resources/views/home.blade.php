@@ -7,7 +7,7 @@
 @section('content')
     @if ($image_hero)
         <div class="row hero_image_block">
-            <img class="hero_image" alt="{{ $image_hero->description }}" src="images/{{ $image_hero->image_folder->name }}/{{ $image_hero->filename }}.jpg?size"></div>
+            <img class="hero_image" alt="{{ $image_hero->description }}" src="images/{{ $image_hero->image_folder->name }}/{{ $image_hero->filename }}.jpg?size">
             <h2 class="hero_text">{{ $page->hero_title ? $page->hero_title : "Dive - Log -Repeat" }}</h2>
         </div>
     @endif
@@ -15,7 +15,7 @@
         <div class="col s12">
             <div class="row card">
                 @if (!Agent::isMobile() && $images_carousel)
-                    <div class="col s12 m12 l6 push-l6">
+                    <div class="col s12 m12 l6">
                         <div class="card blue darken-4 white-text">
                             <div class="card-image">
                                 <div class="slider">
@@ -34,11 +34,11 @@
                         </div>
                     </div>
                 @endif
-                <div class="col s12 m12 l6 pull-l6">
+                <div class="col s12 m12 l6">
                     <div class="card-content">
                         <div class="flow-text home_page_text">
-                            <h4>{{ $page->title }}</h4>
-                            {!! $page->content !!}
+                            <h4>{{ $data['title'] ?: '' }}</h4>
+                            {!! $data['content'] ?: '' !!}
                         </div>
                     </div>
                 </div>
