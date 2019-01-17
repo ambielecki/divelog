@@ -13,4 +13,8 @@ class AdminController extends Controller
     public function getAdmin() {
         return view('admin.admin');
     }
+
+    public function getPhpInfo() {
+        return phpinfo();
+    }
 }

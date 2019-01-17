@@ -10,6 +10,7 @@ class DiveCalculatorController extends Controller
 {
     public function getCalculator() {
         $calculator = new DiveCalculator();
+
         return view('pages.divecalculator', [
             'table_1_header' => $calculator->getTableDepths(),
             'table_1_body'   => $calculator->getTableOne(),

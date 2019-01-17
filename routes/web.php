@@ -26,9 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //admin routes
 Route::group(['middleware' => 'isadmin', 'prefix' => '/admin'], function () {
-    Route::get('/info', function () {
-        phpinfo();
-    });
+    Route::get('/info', 'AdminController@getPhpInfo');
     Route::get('/', 'AdminController@getAdmin')->name('admin');
 
     Route::get('/home/edit', 'HomeController@getEditHome')->name('home_edit');
