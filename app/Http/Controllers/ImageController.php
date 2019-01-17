@@ -17,21 +17,14 @@ use Intervention\Image\Facades\Image as InterventionImage;
  */
 class ImageController extends Controller
 {
-    /**
-     * return images from app storage, request param size will resize image
-     *
-     * @param $request Request
-     * @param $folder string the folder where the image live
-     * @param $fileName string the image name
-     * @return mixed the image response
-     */
-    public function getImage(Request $request, $folder, $fileName) {
+    public function getImage(Request $request, string $folder, string $fileName) {
         $image = InterventionImage::make(Storage::get('images/'.$folder.'/'.$fileName));
         if ($request->input('size')) {
             $image->resize($request->input('size'), null, function($constraint) {
                 $constraint->aspectRatio();
             });
         }
+
         return $image->response();
     }
 
@@ -79,7 +72,8 @@ class ImageController extends Controller
                 'name'      => $image->filename,
                 'path'      => '/images/' . $folder->name . '/' . $image->filename . '.jpg?size=150'
             ];
-            array_push($response_images, $this_image);
+
+            $response_images[] = $this_image;
         }
         return response()->json([
             'images'   => $response_images
@@ -103,6 +97,7 @@ class ImageController extends Controller
             'folder'        => $image->image_folder->name,
             'path'          => '/images/' . $image->image_folder->name . '/' . $image->filename . '.jpg'
         ];
+
         return response()->json([
             'image' => $image_response
         ]);

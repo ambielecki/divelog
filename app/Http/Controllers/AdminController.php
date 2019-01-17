@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * Class AdminController controller for admin related functionality
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
  */
 class AdminController extends Controller
 {
-    public function getAdmin() {
+    public function getAdmin(): View {
         return view('admin.admin');
     }
 
