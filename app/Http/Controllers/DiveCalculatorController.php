@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiveCalculatorRequest;
 use App\Http\Requests\LogCalculatorRequest;
 use Ambielecki\DiveCalculator\DiveCalculator;
+use Illuminate\Http\JsonResponse;
 
 class DiveCalculatorController extends Controller
 {
@@ -20,7 +21,7 @@ class DiveCalculatorController extends Controller
         ]);
     }
 
-    public function postCalculator(DiveCalculatorRequest $request) {
+    public function postCalculator(DiveCalculatorRequest $request): JsonResponse {
         $error = false;
 
         $dive_1_max_time = null;
@@ -80,14 +81,13 @@ class DiveCalculatorController extends Controller
         ]);
     }
 
-    public function postLogCalculator(LogCalculatorRequest $request) {
+    public function postLogCalculator(LogCalculatorRequest $request): JsonResponse {
         $max_depth = $request->input('max_depth');
         $bottom_time = $request->input('bottom_time');
         $previous_pg = $request->input('previous_pg');
         $surface_interval = $request->input('surface_interval');
         $post_si_pg = null;
         $rnt = null;
-        $error = false;
 
         $calculator = new DiveCalculator();
 
@@ -98,6 +98,7 @@ class DiveCalculatorController extends Controller
             }
         }
         $pressure_group = $calculator->getPressureGroup($max_depth, $bottom_time, $rnt);
+
         return response()->json([
             'pressure_group' => $pressure_group
         ]);
