@@ -45,7 +45,7 @@
         <li><a href="{{ route('updates_list') }}">Updates</a></li>
         @if (Auth::check())
             @isAdmin
-            <li><a href="{{ route('admin') }}">Admin</a></li>
+                <li><a href="{{ route('admin') }}">Admin</a></li>
             @endAdmin
             <ul class="collapsible" data-collapsible="accordian">
                 <li>

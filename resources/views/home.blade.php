@@ -13,7 +13,18 @@
     @endif
     <div class="row">
         <div class="col s12">
-            <div class="row card">
+            <div class="row">
+                <div class="col s12 m12 l6">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="flow-text home_page_text">
+                                <h4>{{ $data['title'] ?: '' }}</h4>
+                                {!! $data['content'] ?: '' !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @if (!Agent::isMobile() && $images_carousel)
                     <div class="col s12 m12 l6">
                         <div class="card blue darken-4 white-text">
@@ -34,14 +45,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col s12 m12 l6">
-                    <div class="card-content">
-                        <div class="flow-text home_page_text">
-                            <h4>{{ $data['title'] ?: '' }}</h4>
-                            {!! $data['content'] ?: '' !!}
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
