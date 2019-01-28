@@ -20,7 +20,8 @@ class BlogController extends Controller {
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
         $posts = BlogPage::where('is_active', true)
             ->orderBy('created_at', 'DESC')
-            ->skip($skip)->limit($limit)
+            ->skip($skip)
+            ->limit($limit)
             ->get();
 
         return view('blog.blog_list', [
