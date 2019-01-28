@@ -19,6 +19,7 @@
     "barryvdh/laravel-debugbar": "^3.2",
     "barryvdh/laravel-ide-helper": "^2.5",
     "filp/whoops": "~2.0",
+    "friendsofphp/php-cs-fixer": "^2.14",
     "fzaninotto/faker": "~1.4",
     "mockery/mockery": "0.9.*",
     "phpunit/phpunit": "~7.0"
@@ -52,6 +53,9 @@
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover"
+    ],
+    "format": [
+      "vendor/bin/php-cs-fixer fix --config=.php_cs.dist"
     ]
   },
   "config": {

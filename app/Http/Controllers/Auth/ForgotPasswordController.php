@@ -7,8 +7,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Session;
 
-class ForgotPasswordController extends Controller
-{
+class ForgotPasswordController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -27,14 +26,13 @@ class ForgotPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest');
     }
 
-    protected function sendResetLinkResponse($response)
-    {
+    protected function sendResetLinkResponse($response) {
         Session::flash('flash_success', 'Password Reset Email Sent, Please Check Your Inbox');
+
         return back()->with('status', trans($response));
     }
 
@@ -45,9 +43,9 @@ class ForgotPasswordController extends Controller
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
+    protected function sendResetLinkFailedResponse(Request $request, $response) {
         Session::flash('flash_warning', 'There was a problem sending the password reset email, please check your email address and try again.');
+
         return back()->withErrors(
             ['email' => trans($response)]
         );

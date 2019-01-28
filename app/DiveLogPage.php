@@ -4,8 +4,7 @@ namespace App;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class DiveLogPage extends Model
-{
+class DiveLogPage extends Model {
     protected $collection = 'dive_log';
 
     protected $connection = 'mongodb';

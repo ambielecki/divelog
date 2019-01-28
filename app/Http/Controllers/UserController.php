@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     public function getSettings() {
         $user = Auth::user();
+
         return view('auth.settings', ['user' => $user]);
     }
 
@@ -23,17 +23,20 @@ class UserController extends Controller
         $user = Auth::user();
         if (!Hash::check($request->input('current_password'), $user->password)) {
             Session::flash('password_error', 'Password does not match our records.');
+
             return redirect()->route('user_settings');
         }
         $user->password = Hash::make($request->input('password'));
         $user->save();
         Session::flash('flash_success', 'Password updated successfully');
+
         return redirect()->route('home');
     }
 
     public function getList() {
         $users = User::get();
         $count = User::count();
+
         return view('admin.users.user_list', [
             'users'        => $users,
             'count'        => $count,
@@ -43,6 +46,5 @@ class UserController extends Controller
     }
 
     public function getEdit($id = null) {
-
     }
 }

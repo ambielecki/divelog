@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\BlogPage;
+use App\HomePage;
 use App\Image;
 use App\ImageFolder;
-use App\HomePage;
 use Illuminate\Http\Request;
 use Session;
 
@@ -18,18 +18,19 @@ class HomeController extends Controller {
 
         $page = $page ?: new HomePage();
 
-        $image_hero = $page->image_hero ? Image::with('image_folder')->find($page->image_hero) : '';
+        $image_hero      = $page->image_hero ? Image::with('image_folder')->find($page->image_hero) : '';
         $images_carousel = $page->images_carousel ? Image::with('image_folder')->findMany($page->images_carousel) : [];
-        $images_single = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
-        $posts = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
-        $posts_images = [];
+        $images_single   = $page->images_single ? Image::with('image_folder')->findMany($page->images_single) : [];
+        $posts           = BlogPage::where('is_active', '=', true)->orderBy('created_at', 'DESC')->limit(5)->get();
+        $posts_images    = [];
 
         foreach ($posts as $post) {
             $posts_images[] = Image::with('image_folder')->findMany($post->images);
         }
 
         return view(
-            'home', [
+            'home',
+            [
                 'page'            => $page,
                 'data'            => $page->data ?: [],
                 'image_hero'      => $image_hero,
@@ -51,15 +52,17 @@ class HomeController extends Controller {
             $page = new HomePage();
         }
 
-        $images = ImageFolder::where('name', '=', 'home')->with('images')->first();
+        $images      = ImageFolder::where('name', '=', 'home')->with('images')->first();
         $hero_images = ImageFolder::where('name', '=', 'hero')->with('images')->first();
 
         return view(
-            'admin.home_edit', [
+            'admin.home_edit',
+            [
             'page'        => $page,
             'hero_images' => $hero_images,
             'images'      => $images,
-        ]);
+        ]
+        );
     }
 
     public function postEditHome(Request $request) {
@@ -67,10 +70,10 @@ class HomeController extends Controller {
             ->where('is_active', '=', true)
             ->update(['is_active' => false]);
 
-        $page = new HomePage();
-        $page->slug = 'home';
+        $page            = new HomePage();
+        $page->slug      = 'home';
         $page->is_active = true;
-        $page->data = [
+        $page->data      = [
             'name'            => 'home',
             'title'           => $request->input('title'),
             'content'         => $request->input('content'),

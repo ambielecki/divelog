@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Libraries;
+
 /**
  * Created by PhpStorm.
  * User: Bielecki
  * Date: 5/21/2017
  * Time: 11:40 AM
  */
-class DiveCalculator
-{
+class DiveCalculator {
     /**
      * message if dive was longer than allowed at a given maximum depth
      */
@@ -128,26 +128,29 @@ class DiveCalculator
      * @return string
      */
     public function getPressureGroup($depth, $time, $residual_time = null) {
-        $time = $time + $residual_time;
+        $time         = $time + $residual_time;
         $table_depths = $this->getTableDepths();
-        $depth_key = null;
+        $depth_key    = null;
         foreach ($table_depths as $key => $table_depth) {
             if ($depth <= $table_depth) {
                 $depth_key = $key;
+
                 break;
             }
         }
         if (!$depth_key) {
             return $this::OVER_DEPTH;
         }
-        $table_groups = $this->getTableOne();
+        $table_groups   = $this->getTableOne();
         $pressure_group = $this::OVER_NDL;
         foreach ($table_groups as $group => $times) {
             if (isset($times[$depth_key]) && $time <= $times[$depth_key]) {
                 $pressure_group = $group;
+
                 break;
             }
         }
+
         return $pressure_group;
     }
 
@@ -158,12 +161,13 @@ class DiveCalculator
      */
     public function getNewPressureGroup($starting_group, $surface_interval) {
         $pressure_groups = $this->getTableGroups();
-        $table_times = $this->getTableTwo();
-        $times = $table_times[strtoupper($starting_group)];
-        $group_key = null;
+        $table_times     = $this->getTableTwo();
+        $times           = $table_times[strtoupper($starting_group)];
+        $group_key       = null;
         foreach ($times as $key => $time) {
             if ($time < $surface_interval) {
                 $group_key = $key;
+
                 break;
             }
         }
@@ -181,8 +185,8 @@ class DiveCalculator
      */
     public function getResidualNitrogenTime($pressure_group, $depth) {
         $pressure_groups = $this->getTableGroups();
-        $nitrogen_times = $this->getTableThree();
-        $pressure_key = null;
+        $nitrogen_times  = $this->getTableThree();
+        $pressure_key    = null;
         foreach ($pressure_groups as $key => $group) {
             if ($group == $pressure_group) {
                 $pressure_key = $key;
@@ -192,9 +196,11 @@ class DiveCalculator
         foreach ($nitrogen_times as $table_depth => $times) {
             if ($depth <= $table_depth) {
                 $rnt = isset($nitrogen_times[$table_depth][$pressure_key]) ? $nitrogen_times[$table_depth][$pressure_key] : $this::OFF_REPETITIVE_CHART;
+
                 break;
             }
         }
+
         return $rnt;
     }
 
@@ -206,17 +212,18 @@ class DiveCalculator
      */
     public function getMaxBottomTime($depth, $rnt = 0) {
         $table_depths = $this->getTableDepths();
-        $depth_key = null;
+        $depth_key    = null;
         foreach ($table_depths as $key => $table_depth) {
             if ($depth <= $table_depth) {
                 $depth_key = $key;
+
                 break;
             }
         }
         if (!$depth_key) {
             return $this::OVER_DEPTH;
         }
-        $max_time = 0;
+        $max_time     = 0;
         $table_groups = $this->getTableOne();
 
         foreach ($table_groups as $group) {

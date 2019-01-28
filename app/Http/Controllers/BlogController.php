@@ -8,14 +8,15 @@ use App\ImageFolder;
 use Illuminate\Http\Request;
 use Session;
 
-class BlogController extends Controller
-{
+class BlogController extends Controller {
     public function getList($page = 1) {
         $limit = 10;
-        $skip = 0;
+        $skip  = 0;
+
         if ($page) {
             $skip = ($page - 1) * $limit;
         }
+
         $pages = ceil(BlogPage::where('is_active', '=', true)->count() / $limit);
         $posts = BlogPage::where('is_active', true)
             ->orderBy('created_at', 'DESC')
@@ -32,8 +33,9 @@ class BlogController extends Controller
     }
 
     public function getView($slug) {
-        $page = BlogPage::where('href', '=', $slug)->where('is_active', '=', true)->first();
+        $page   = BlogPage::where('href', '=', $slug)->where('is_active', '=', true)->first();
         $images = Image::whereIn('id', $page->images)->with('image_folder')->get();
+
         return view('blog.blog_view', [
             'page'   => $page,
             'images' => $images,
@@ -42,7 +44,7 @@ class BlogController extends Controller
 
     public function getAdminList($page = 1) {
         $limit = 10;
-        $skip = 0;
+        $skip  = 0;
 
         if ($page) {
             $skip = ($page - 1) * $limit;
@@ -81,7 +83,7 @@ class BlogController extends Controller
 
         $slug = BlogPage::createSlug($request->input('title'));
 
-        $post = new BlogPage();
+        $post       = new BlogPage();
         $slug_check = BlogPage::slugCheck($post, $slug);
 
         if ($slug_check) {
@@ -95,17 +97,20 @@ class BlogController extends Controller
 
         if ($post->save()) {
             Session::flash('flash_success', 'Post Created Successfully');
+
             return redirect()->route('blog_admin_list');
         }
 
         Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
+
         return redirect()->route('blog_create')->withInput();
     }
 
     public function getEdit($slug) {
-        $post = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->first();
-        $images = Image::with('image_folder')->findMany($post->images);
+        $post          = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->first();
+        $images        = Image::with('image_folder')->findMany($post->images);
         $image_folders = ImageFolder::with('images')->get();
+
         return view('admin.blog.blog_edit', [
             'post'          => $post,
             'images'        => $images,
@@ -122,24 +127,29 @@ class BlogController extends Controller
         ]);
 
         $previous_versions = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->get();
+
         foreach ($previous_versions as $version) {
             $version->is_active = false;
             $version->save();
         }
+
         $post = new BlogPage();
         $post = BlogPage::persist($post, $request, $slug);
 
         if ($post->save()) {
             Session::flash('flash_success', 'Post Edited Successfully');
+
             return redirect()->route('blog_admin_list');
         }
 
         Session::flash('flash_warning', 'There was a problem with saving your post, please try again');
+
         return redirect()->route('blog_edit', ['href' => $request->input('href')])->withInput();
     }
 
     public function postDisable($slug) {
         $posts = BlogPage::where('is_active', '=', true)->where('href', '=', $slug)->get();
+
         foreach ($posts as $post) {
             $post->is_active = false;
             if (!$post->save()) {
@@ -148,6 +158,7 @@ class BlogController extends Controller
         }
 
         Session::flash('flash_success', 'Post Disabled');
+
         return redirect()->route('blog_admin_list');
     }
 
@@ -156,10 +167,10 @@ class BlogController extends Controller
             'title' => 'string',
         ]);
 
-        $title = $request->input('title');
-        $slug = BlogPage::createSlug($title);
+        $title      = $request->input('title');
+        $slug       = BlogPage::createSlug($title);
         $slug_check = BlogPage::where('href', '=', $slug)->get();
-        $check = true;
+        $check      = true;
 
         if (count($slug_check)) {
             $check = false;

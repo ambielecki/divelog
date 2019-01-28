@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Storage;
 
-class ImageFolder extends Model
-{
+class ImageFolder extends Model {
     public function images() {
         return $this->hasMany('App\Image');
     }
@@ -16,12 +15,14 @@ class ImageFolder extends Model
     public static function createFolder($name) {
         try {
             Storage::makeDirectory("images/$name");
-            $folder = new ImageFolder();
+            $folder       = new ImageFolder();
             $folder->name = $name;
             $folder->save();
+
             return true;
         } catch (Exception $e) {
             Log::error($e);
+
             return false;
         }
     }

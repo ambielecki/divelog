@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ImagePlacement extends Model
-{
+class ImagePlacement extends Model {
     const PLACEMENT_TYPES = [
         'carousel',
         'left',

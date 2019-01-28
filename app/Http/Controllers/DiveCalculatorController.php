@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Ambielecki\DiveCalculator\DiveCalculator;
 use App\Http\Requests\DiveCalculatorRequest;
 use App\Http\Requests\LogCalculatorRequest;
-use Ambielecki\DiveCalculator\DiveCalculator;
 use Illuminate\Http\JsonResponse;
 
-class DiveCalculatorController extends Controller
-{
+class DiveCalculatorController extends Controller {
     public function getCalculator() {
         $calculator = new DiveCalculator();
 
@@ -25,17 +24,17 @@ class DiveCalculatorController extends Controller
         $error = false;
 
         $dive_1_max_time = null;
-        $dive_1_pg = null;
-        $post_si_pg = null;
-        $rnt = null;
+        $dive_1_pg       = null;
+        $post_si_pg      = null;
+        $rnt             = null;
         $dive_2_max_time = null;
-        $dive_2_pg = null;
+        $dive_2_pg       = null;
 
-        $dive_1_depth = $request->input('dive_1_depth');
-        $dive_1_time = $request->input('dive_1_time');
+        $dive_1_depth     = $request->input('dive_1_depth');
+        $dive_1_time      = $request->input('dive_1_time');
         $surface_interval = $request->input('surface_interval');
-        $dive_2_depth = $request->input('dive_2_depth');
-        $dive_2_time = $request->input('dive_2_time');
+        $dive_2_depth     = $request->input('dive_2_depth');
+        $dive_2_time      = $request->input('dive_2_time');
 
         $calculator = new DiveCalculator();
 
@@ -82,12 +81,12 @@ class DiveCalculatorController extends Controller
     }
 
     public function postLogCalculator(LogCalculatorRequest $request): JsonResponse {
-        $max_depth = $request->input('max_depth');
-        $bottom_time = $request->input('bottom_time');
-        $previous_pg = $request->input('previous_pg');
+        $max_depth        = $request->input('max_depth');
+        $bottom_time      = $request->input('bottom_time');
+        $previous_pg      = $request->input('previous_pg');
         $surface_interval = $request->input('surface_interval');
-        $post_si_pg = null;
-        $rnt = null;
+        $post_si_pg       = null;
+        $rnt              = null;
 
         $calculator = new DiveCalculator();
 

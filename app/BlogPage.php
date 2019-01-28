@@ -20,9 +20,9 @@ class BlogPage extends Page {
     }
 
     public static function persist(BlogPage $post, Request $request, $href): BlogPage {
-        $post->slug = $href;
+        $post->slug      = $href;
         $post->is_active = true;
-        $post->data = [
+        $post->data      = [
             'content'           => $request->input('content'),
             'images'            => $request->input('images'),
             'short_description' => $request->input('short_description'),

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +19,5 @@ Route::post('/image/list', 'ImageController@postImageList');
 Route::post('/image/detail', 'ImageController@postImageDetail');
 
 Route::post('/blog/href', 'BlogController@postCheckHref');
+
+Route::post('test/{action}', 'TestController@getTestAjax');

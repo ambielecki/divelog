@@ -1,17 +1,15 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\ImagePlacement;
+use Illuminate\Database\Seeder;
 
-class ImagePlacementSeeder extends Seeder
-{
+class ImagePlacementSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         $placements = [
             ['carousel1', 'carousel'],
             ['carousel2', 'carousel'],
@@ -23,7 +21,7 @@ class ImagePlacementSeeder extends Seeder
             ['hero', 'hero']
         ];
         foreach ($placements as $placement) {
-            $dbPlacement = new ImagePlacement();
+            $dbPlacement       = new ImagePlacement();
             $dbPlacement->name = $placement[0];
             $dbPlacement->type = $placement[1];
             $dbPlacement->save();

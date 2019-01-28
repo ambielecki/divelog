@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ImageUploadRequest;
 use App\Http\Requests\ImageEditRequest;
+use App\Http\Requests\ImageUploadRequest;
 use App\Image;
 use App\ImageFolder;
 use Illuminate\Http\Request;
@@ -15,12 +15,11 @@ use Intervention\Image\Facades\Image as InterventionImage;
  * Class ImageController functions for returning images
  * @package App\Http\Controllers
  */
-class ImageController extends Controller
-{
+class ImageController extends Controller {
     public function getImage(Request $request, string $folder, string $fileName) {
         $image = InterventionImage::make(Storage::get('images/'.$folder.'/'.$fileName));
         if ($request->input('size')) {
-            $image->resize($request->input('size'), null, function($constraint) {
+            $image->resize($request->input('size'), null, function ($constraint) {
                 $constraint->aspectRatio();
             });
         }
@@ -50,6 +49,7 @@ class ImageController extends Controller
      */
     public function getImageList() {
         $folders = ImageFolder::get();
+
         return view('admin.image.image_list', [
             'folders'   => $folders
         ]);
@@ -63,7 +63,7 @@ class ImageController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function postImageList(Request $request) {
-        $folder = ImageFolder::with('images')->find($request->input('folder'));
+        $folder          = ImageFolder::with('images')->find($request->input('folder'));
         $response_images = [];
         foreach ($folder->images as $image) {
             $this_image = [
@@ -75,6 +75,7 @@ class ImageController extends Controller
 
             $response_images[] = $this_image;
         }
+
         return response()->json([
             'images'   => $response_images
         ]);
@@ -87,7 +88,7 @@ class ImageController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function postImageDetail(Request $request) {
-        $image = Image::with('image_folder')->find($request->input('image'));
+        $image          = Image::with('image_folder')->find($request->input('image'));
         $image_response = [
             'id'            => $image->id,
             'name'          => $image->filename,
@@ -113,9 +114,11 @@ class ImageController extends Controller
         $image = Image::with('image_folder')->find($id);
         if (!$image) {
             Session::flash('flash_warning', 'Image does not exist, please try again');
+
             return redirect()->route('image_list');
         }
         $folders = ImageFolder::get();
+
         return view('admin.image.image_edit', [
             'image'     => $image,
             'folders'   => $folders,
@@ -133,10 +136,12 @@ class ImageController extends Controller
         $status = Image::editImage($request);
         if ($status) {
             Session::flash('flash_success', 'Image Updated Successfully');
+
             return redirect()->route('image_list');
         }
 
         Session::flash('flash_warning', 'There was a problem saving your data, please try again');
+
         return redirect('/admin/image_edit/' . $request->input('id'))->withInput();
     }
 
@@ -147,6 +152,7 @@ class ImageController extends Controller
      */
     public function getUploadImage() {
         $folders = ImageFolder::orderBy('name', 'asc')->get();
+
         return view('admin.image.image_upload', [
             'folders' => $folders
         ]);
@@ -160,10 +166,12 @@ class ImageController extends Controller
         $status = Image::uploadImage($request);
         if ($status) {
             Session::flash('flash_success', 'Image Uploaded Successfully');
+
             return redirect()->route($route);
         }
 
         Session::flash('flash_warning', 'There was a problem saving your image, please try again');
+
         return redirect()->route('image_upload')->withInput();
     }
 
@@ -182,21 +190,24 @@ class ImageController extends Controller
             'name' => 'required|string'
         ]);
 
-        $name = strtolower($request->input('name'));
+        $name  = strtolower($request->input('name'));
         $count = ImageFolder::where('name', '=', $name)->count();
 
         if ($count) {
             Session::flash('flash_warning', 'There was a problem saving your folder, the name already exists, please try again.');
+
             return redirect()->route('image_folder_create')->withInput();
         }
 
         $result = ImageFolder::createFolder($name);
         if ($result) {
             Session::flash('flash_success', 'Image Uploaded Successfully');
+
             return redirect()->route('image_folder_list');
         }
 
         Session::flash('flash_warning', 'There was a problem saving your folder, please try again');
+
         return redirect()->route('image_folder_create')->withInput();
     }
 }

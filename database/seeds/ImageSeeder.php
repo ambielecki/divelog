@@ -3,15 +3,13 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ImageSeeder extends Seeder
-{
+class ImageSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
 //        $query = DB::raw(
 //            "INSERT INTO `images` (`id`, `created_at`, `updated_at`, `filename`, `header`, `subheader`, `description`, `active`, `image_folder_id`) VALUES (1, '2017-05-28 23:26:53', '2017-05-28 23:26:53', 'home_592b5cbcdf274', NULL, NULL, 'Picture of my wife and I during her Open Water Certification in Cozumel', 1, 8);
 //                    INSERT INTO `images` (`id`, `created_at`, `updated_at`, `filename`, `header`, `subheader`, `description`, `active`, `image_folder_id`) VALUES (2, '2017-05-28 23:27:13', '2017-05-28 23:27:13', 'home_592b5cd14bfd7', NULL, NULL, 'Turtle photo taken in Cozumel with DIve House', 1, 8);

@@ -7,8 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Session;
 
-class ResetPasswordController extends Controller
-{
+class ResetPasswordController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -34,8 +33,7 @@ class ResetPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest');
     }
 
@@ -45,9 +43,9 @@ class ResetPasswordController extends Controller
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendResetResponse($response)
-    {
+    protected function sendResetResponse($response) {
         Session::flash('flash_success', 'Password Successfully Reset');
+
         return redirect($this->redirectPath())
             ->with('status', trans($response));
     }
@@ -59,9 +57,9 @@ class ResetPasswordController extends Controller
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendResetFailedResponse(Request $request, $response)
-    {
+    protected function sendResetFailedResponse(Request $request, $response) {
         Session::flash('flash_warning', 'There was a problem resetting your password, please check your email address and try again.');
+
         return redirect()->back()
             ->withInput($request->only('email'))
             ->withErrors(['email' => trans($response)]);
